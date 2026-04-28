@@ -12,6 +12,7 @@ import net.coobird.thumbnailator.geometry.Position;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import static dev.scx.http.headers.HttpHeaderName.CACHE_CONTROL;
 import static dev.scx.web.result.Binary.getMediaTypeByFileName;
@@ -46,7 +47,7 @@ public final class Image implements WebResult {
     }
 
     /// 裁剪后的图片
-    private static byte[] getBuffer(File file, Integer width, Integer height, Position position) {
+    private static byte[] getBuffer(File file, Integer width, Integer height, Position position) throws IOException {
         try (var out = new ByteArrayOutputStream()) {
             var image = Thumbnails.of(file).scale(1.0).asBufferedImage();
             var imageHeight = image.getHeight();
@@ -63,8 +64,6 @@ public final class Image implements WebResult {
             }
 
             return out.toByteArray();
-        } catch (Exception e) {
-            throw new BadRequestException(e);
         }
     }
 
@@ -83,7 +82,11 @@ public final class Image implements WebResult {
             StaticFilesSupport.sendFile(file, request);
         } else {
             if (buffer == null) {
-                buffer = getBuffer(file, width, height, position);
+                try {
+                    buffer = getBuffer(file, width, height, position);
+                } catch (IOException e) {
+                    throw new BadRequestException(e);
+                }
             }
             response.send(buffer);
         }
