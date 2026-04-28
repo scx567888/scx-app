@@ -182,7 +182,7 @@
         <scx-logging.version>0.0.1</scx-logging.version>
         <scx-string.version>0.0.1</scx-string.version>
         <scx-lock.version>0.0.1</scx-lock.version>
-        <thumbnailator.version>0.4.20</thumbnailator.version>
+        <thumbnailator.version>0.4.21</thumbnailator.version>
         <freemarker.version>2.3.34</freemarker.version>
         <hikaricp.version>7.0.2</hikaricp.version>
         <jasypt.version>1.9.3</jasypt.version>
