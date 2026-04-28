@@ -4,20 +4,24 @@ import dev.scx.http.ScxHttpServerRequest;
 import dev.scx.web.ScxWeb;
 import dev.scx.web.return_value_handler.ReturnValueHandler;
 
-public class TemplateReturnValueHandler implements ReturnValueHandler {
+/// TemplateReturnValueHandler
+///
+/// @author scx567888
+/// @version 0.0.1
+public final class TemplateReturnValueHandler implements ReturnValueHandler {
 
-    private TemplateEngine templateHandler;
+    private TemplateEngine templateEngine;
 
-    public TemplateReturnValueHandler(TemplateEngine templateHandler) {
-        this.templateHandler=templateHandler;
+    public TemplateReturnValueHandler(TemplateEngine templateEngine) {
+        this.templateEngine =templateEngine;
     }
 
-    public TemplateEngine templateHandler() {
-        return templateHandler;
+    public TemplateEngine templateEngine() {
+        return templateEngine;
     }
 
-    public TemplateReturnValueHandler setTemplateHandler(TemplateEngine templateHandler) {
-        this.templateHandler = templateHandler;
+    public TemplateReturnValueHandler templateEngine(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
         return this;
     }
 
@@ -28,10 +32,10 @@ public class TemplateReturnValueHandler implements ReturnValueHandler {
 
     @Override
     public void handle(Object returnValue, ScxHttpServerRequest request, ScxWeb scxWeb) throws Exception {
-        if (returnValue instanceof Template template){
-            template.apply(request,templateHandler);
-            return;
+        if (!(returnValue instanceof Template template)) {
+            throw new IllegalArgumentException("参数不是 Template 类型 !!! " + returnValue.getClass());
         }
-        throw new IllegalArgumentException("");
+        template.apply(request, templateEngine);
     }
+
 }

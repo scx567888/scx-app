@@ -33,14 +33,13 @@ public final class Template  {
         return this;
     }
 
-
-    public void apply(ScxHttpServerRequest request, TemplateEngine templateHandler) throws Exception {
-        if (templateHandler == null) {
-            throw new IllegalStateException("No templateHandler configured in WebContext");
+    public void apply(ScxHttpServerRequest request, TemplateEngine templateEngine) throws Exception {
+        if (templateEngine == null) {
+            throw new IllegalStateException("templateEngine can not be null");
         }
 
         var sw = new StringWriter();
-        var template = templateHandler.getTemplate(templatePath);
+        var template = templateEngine.getTemplate(templatePath);
         template.process(dataMap, sw);
 
         request.response()
