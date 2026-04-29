@@ -5,14 +5,15 @@ import dev.scx.app.config.ScxEnvironment;
 import dev.scx.app.config.handler.AppRootHandler;
 import dev.scx.app.config.handler.DecryptValueHandler;
 import dev.scx.ansi.Ansi;
+import dev.scx.app.util.NetUtils;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static dev.scx.app.util.ExceptionUtils.ignore;
 import static dev.scx.app.util.NetUtils.getLocalIPAddress;
 
 /// ScxOptions
@@ -105,8 +106,14 @@ public final class ScxAppOptions {
     }
 
     public void printInfo() {
+        String ip= "[]";
+        try {
+            ip = Arrays.stream(NetUtils.getLocalIPAddress(c -> c instanceof Inet4Address)).map(InetAddress::getHostAddress).collect(Collectors.joining(", ", "[", "]"));
+        } catch (SocketException _) {
+
+        }
         Ansi.ansi()
-                .green("Y 服务器 IP 地址                       \t -->\t " + Arrays.stream(ignore(() -> getLocalIPAddress(c -> c instanceof Inet4Address), new InetAddress[]{})).map(InetAddress::getHostAddress).collect(Collectors.joining(", ", "[", "]"))).ln()
+                .green("Y 服务器 IP 地址                       \t -->\t " +ip ).ln()
                 .green("Y 端口号                               \t -->\t " + port).ln()
                 .green("Y 允许的请求源                         \t -->\t " + allowedOrigin).ln()
                 .green("Y 模板根目录                           \t -->\t " + templateRoot.toString()).ln()
