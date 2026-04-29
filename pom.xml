@@ -173,7 +173,7 @@
     <properties>
 
         <!-- *********************** 以下为依赖包版本 *********************** -->
-        <scx-web.version>0.2.1</scx-web.version>
+        <scx-web.version>0.2.3</scx-web.version>
         <scx-data-sql.version>0.1.0</scx-data-sql.version>
         <scx-scheduling.version>0.2.0</scx-scheduling.version>
         <scx-di.version>0.2.0</scx-di.version>
