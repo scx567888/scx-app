@@ -99,7 +99,7 @@ public class WebSiteController {
     ///
     /// @return 页面
     /// @throws java.io.IOException if any.
-    @Route(value = "", methods = HttpMethod.GET, priority = 10)
+    @Route(methods = HttpMethod.GET, priority = 10)
     public Template TestIndex(RoutingContext c) throws IOException {
         System.err.println("最后一次匹配的路由" + c.request().path());
         var index = Template.of("index.html");
@@ -112,7 +112,7 @@ public class WebSiteController {
     ///
     /// @param c a
     /// @throws IOException a
-    @Route(value = "", methods = HttpMethod.GET, priority = 5)
+    @Route(methods = HttpMethod.GET, priority = 5)
     public void TestIndex1(RoutingContext c) throws Throwable {
         System.err.println("第二个匹配的路由" + c.request().path());
         c.data().put("name", "小明");

@@ -38,7 +38,6 @@ import java.util.concurrent.Executors;
 import static dev.scx.app.ScxAppContext.GLOBAL_SCX;
 import static dev.scx.app.ScxAppHelper.*;
 import static dev.scx.app.enumeration.ScxAppFeature.*;
-import static dev.scx.app.util.ExceptionUtils.ignore;
 import static dev.scx.app.util.NetUtils.getLocalIPAddress;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
@@ -217,7 +216,7 @@ public final class ScxApp {
             var o = Ansi.ansi().green("服务器启动成功... 用时 " + StopWatch.stopToMillis("ScxRun") + " ms").ln();
             var p = this.httpServer.localAddress().getPort();
             o.green("> 本地: " + httpOrHttps + "://localhost:" + p + "/").ln();
-            var normalIP = ignore(() -> getLocalIPAddress(c -> c instanceof Inet4Address), new InetAddress[]{});
+            var normalIP = getLocalIPAddress(c -> c instanceof Inet4Address);
             for (var ip : normalIP) {
                 o.green("> 网络: " + httpOrHttps + "://" + ip.getHostAddress() + ":" + p + "/").ln();
             }
