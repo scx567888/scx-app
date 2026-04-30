@@ -31,6 +31,7 @@ public class ExtModuleTest extends ScxAppModule {
                 )
                 .configure(ScxAppFeature.USE_DEVELOPMENT_ERROR_PAGE, true)
                 .configure(ScxAppFeature.USE_SPY, true)
+                .setArgs("--scx.config.path=AppRoot:scx-config (2).json")
                 .run();
     }
 
