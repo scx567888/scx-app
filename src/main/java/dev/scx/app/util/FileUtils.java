@@ -1,5 +1,9 @@
 package dev.scx.app.util;
 
+import dev.scx.io.ByteInput;
+import dev.scx.io.ScxIO;
+import dev.scx.io.indexer.ByteIndexer;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -204,6 +208,19 @@ public final class FileUtils {
                 Files.createDirectories(target.getParent());
                 try (var out = Files.newOutputStream(target, APPEND, CREATE, SYNC, WRITE)) {
                     in.transferTo(out);
+                }
+            }
+        }
+    }
+
+    public static void appendToFile(Path target, ByteInput byteInput) throws IOException {
+        try (var in = byteInput) {
+            try (var out = Files.newOutputStream(target, APPEND, CREATE, SYNC, WRITE)) {
+                ScxIO.transferToAll(byteInput,out);
+            } catch (NoSuchFileException e) {
+                Files.createDirectories(target.getParent());
+                try (var out = Files.newOutputStream(target, APPEND, CREATE, SYNC, WRITE)) {
+                    ScxIO.transferToAll(byteInput,out);
                 }
             }
         }
