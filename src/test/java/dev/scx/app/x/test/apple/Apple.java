@@ -1,4 +1,4 @@
-package cool.scx.app.x.test.apple;
+package dev.scx.app.x.test.apple;
 
 
 import dev.scx.app.base.BaseModel;

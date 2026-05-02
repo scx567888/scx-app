@@ -1,4 +1,4 @@
-package dev.scx.ffi.platform.c;
+package dev.scx.app.ffi.platform.c;
 
 import dev.scx.ffi.ScxFFI;
 

@@ -1,6 +1,6 @@
-package dev.scx.ffi.platform.win32;
+package dev.scx.app.ffi.platform.win32;
 
-import dev.scx.ffi.platform.win32.WinBase.FILETIME;
+import dev.scx.app.ffi.platform.win32.WinBase.FILETIME;
 import dev.scx.ffi.ScxFFI;
 import dev.scx.ffi.type.IntRef;
 

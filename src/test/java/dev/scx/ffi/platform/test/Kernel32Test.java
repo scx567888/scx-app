@@ -3,7 +3,7 @@ package dev.scx.ffi.platform.test;
 
 import dev.scx.ffi.type.IntRef;
 
-import static dev.scx.ffi.platform.win32.Kernel32.KERNEL32;
+import static dev.scx.app.ffi.platform.win32.Kernel32.KERNEL32;
 
 public class Kernel32Test {
 
