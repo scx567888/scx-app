@@ -108,24 +108,24 @@ public final class ScxAppContext {
         return featureConfig().get(scxFeature);
     }
 
-    public static SQLClient sqlRunner() {
-        return scx().sqlRunner();
+    public static SQLClient sqlClient() {
+        return scx().sqlClient();
     }
 
     public static <X extends Throwable> void autoTransaction(Function0Void<X> handler) throws X, DataAccessException {
-        sqlRunner().autoTransaction(handler);
+        sqlClient().autoTransaction(handler);
     }
 
     public static <R, X extends Throwable> R autoTransaction(Function0<R, X> handler) throws X, DataAccessException {
-        return sqlRunner().autoTransaction(handler);
+        return sqlClient().autoTransaction(handler);
     }
 
     public static  <R, X extends Throwable> R withTransaction(Function1<SQLTransaction, R, X> handler) throws TransactionException, X {
-        return sqlRunner().withTransaction(handler);
+        return sqlClient().withTransaction(handler);
     }
 
     public static <X extends Throwable> void withTransaction(Function1Void<SQLTransaction, X> handler) throws TransactionException, X {
-        sqlRunner().withTransaction(handler);
+        sqlClient().withTransaction(handler);
     }
 
     public static <T> T getBean(Class<T> requiredType) {
@@ -149,7 +149,7 @@ public final class ScxAppContext {
     }
 
     public static SQLClient jdbcContext() {
-        return scx().jdbcContext();
+        return scx().sqlClient();
     }
 
 }

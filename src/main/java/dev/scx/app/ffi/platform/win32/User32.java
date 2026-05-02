@@ -1,12 +1,12 @@
-package dev.scx.ffi.platform.win32;
+package dev.scx.app.ffi.platform.win32;
 
-import dev.scx.ffi.platform.win32.WinDef.RECT;
-import dev.scx.ffi.platform.win32.WinUser.WNDENUMPROC;
+import dev.scx.app.ffi.platform.win32.WinDef.RECT;
+import dev.scx.app.ffi.platform.win32.WinUser.WNDENUMPROC;
 import dev.scx.ffi.ScxFFI;
 
 import java.lang.foreign.MemorySegment;
 
-import static dev.scx.ffi.platform.win32.WinUser.POINT;
+import static dev.scx.app.ffi.platform.win32.WinUser.POINT;
 
 /// 提供一些 User32 标准的接口
 ///

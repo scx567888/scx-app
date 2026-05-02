@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.net.BindException;
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -72,7 +71,7 @@ public final class ScxApp {
 
     private final EventBus eventBus;
 
-    private SQLClient jdbcContext = null;
+    private SQLClient sqlClient = null;
 
     private ScxAppHttpRouter scxHttpRouter = null;
 
@@ -244,7 +243,7 @@ public final class ScxApp {
     ///
     /// @return b
     public boolean checkDataSource() {
-        try (var conn = dataSource().getConnection()) {
+        try (var conn = sqlClient().dataSource().getConnection()) {
             var dm = conn.getMetaData();
             logger.log(DEBUG, "数据源连接成功 : 类型 [{0}]  版本 [{1}]", dm.getDatabaseProductName(), dm.getDatabaseProductVersion());
             return true;
@@ -266,8 +265,8 @@ public final class ScxApp {
             //根据 class 获取 tableInfo
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
-                if (TableSupport.checkNeedFixTable(tableInfo, jdbcContext())) {
-                    TableSupport.fixTable(tableInfo, jdbcContext());
+                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
+                    TableSupport.fixTable(tableInfo, sqlClient());
                     fixSuccess = fixSuccess + 1;
                 } else {
                     noNeedToFix = noNeedToFix + 1;
@@ -310,7 +309,7 @@ public final class ScxApp {
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
                 //有任何需要修复的直接 返回 true
-                if (TableSupport.checkNeedFixTable(tableInfo, jdbcContext())) {
+                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
                     return true;
                 }
             } catch (Exception e) {
@@ -363,20 +362,15 @@ public final class ScxApp {
     }
 
     public DataSource dataSource() {
-        return jdbcContext().dataSource();
+        return sqlClient().dataSource();
     }
 
-    public SQLClient sqlRunner() {
-        return jdbcContext();
-    }
-
-    public SQLClient jdbcContext() {
-        if (jdbcContext == null) {
-            //1, 初始化数据源及 sqlRunner
-            var dataSource = initDataSource(this.scxOptions, this.scxFeatureConfig);
-            this.jdbcContext = dataSource;
+    public SQLClient sqlClient() {
+        if (sqlClient == null) {
+            // 1, 初始化 sqlClient
+            this.sqlClient = initSQLClient(this.scxOptions, this.scxFeatureConfig);
         }
-        return jdbcContext;
+        return sqlClient;
     }
 
     public ScxHttpServer httpServer() {

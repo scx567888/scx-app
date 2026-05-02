@@ -1,4 +1,4 @@
-package dev.scx.ffi.platform.win32;
+package dev.scx.app.ffi.platform.win32;
 
 
 import dev.scx.ffi.type.FFICallback;

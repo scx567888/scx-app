@@ -1,11 +1,11 @@
-package dev.scx.ffi.platform.win32.helper;
+package dev.scx.app.ffi.platform.win32.helper;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.scx.ffi.platform.win32.User32.USER32;
+import static dev.scx.app.ffi.platform.win32.User32.USER32;
 import static java.lang.foreign.ValueLayout.JAVA_LONG;
 
 /// 简化操作 Window

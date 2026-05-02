@@ -171,7 +171,7 @@ public final class ScxAppHelper {
         }
     }
 
-    static SQLClient initDataSource(ScxAppOptions scxOptions, ScxFeatureConfig scxFeatureConfig) {
+    static SQLClient initSQLClient(ScxAppOptions scxOptions, ScxFeatureConfig scxFeatureConfig) {
 
         return SQLClient.of(
             new JDBCConnectionInfo(

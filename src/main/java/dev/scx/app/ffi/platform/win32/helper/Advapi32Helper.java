@@ -1,8 +1,8 @@
-package dev.scx.ffi.platform.win32.helper;
+package dev.scx.app.ffi.platform.win32.helper;
 
-import dev.scx.ffi.platform.win32.Win32Exception;
-import dev.scx.ffi.platform.win32.WinError;
-import dev.scx.ffi.platform.win32.WinNT;
+import dev.scx.app.ffi.platform.win32.Win32Exception;
+import dev.scx.app.ffi.platform.win32.WinError;
+import dev.scx.app.ffi.platform.win32.WinNT;
 import dev.scx.ffi.type.IntRef;
 
 import java.lang.foreign.Arena;
@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.TreeMap;
 
-import static dev.scx.ffi.platform.win32.Advapi32.ADVAPI32;
-import static dev.scx.ffi.platform.win32.WinNT.*;
+import static dev.scx.app.ffi.platform.win32.Advapi32.ADVAPI32;
+import static dev.scx.app.ffi.platform.win32.WinNT.*;
 
 /// 简化操作 注册表
 /// todo 代码待整理

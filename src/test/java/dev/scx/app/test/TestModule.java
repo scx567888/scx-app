@@ -24,7 +24,6 @@ import dev.scx.app.test.person.PersonService;
 import dev.scx.http.media.multi_part.MultiPart;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
 import dev.scx.http.uri.ScxURI;
-import dev.scx.http.x.HttpClient;
 import dev.scx.random.ScxRandom;
 import dev.scx.scheduling.ScxScheduling;
 import dev.scx.sql.SQL;
@@ -44,7 +43,6 @@ import java.util.List;
 import static dev.scx.data.field_policy.FieldPolicyBuilder.*;
 import static dev.scx.data.query.BuildControl.USE_EXPRESSION;
 import static dev.scx.data.query.QueryBuilder.*;
-import static dev.scx.http.method.HttpMethod.POST;
 import static dev.scx.random.ScxRandom.NUMBER_AND_LETTER;
 import static java.lang.System.Logger.Level.ERROR;
 import static org.testng.AssertJUnit.assertEquals;
@@ -79,7 +77,7 @@ public class TestModule extends ScxAppModule {
                 .run();
         //修复表
         try {
-            ScxAppContext.sqlRunner().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
+            ScxAppContext.sqlClient().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
         } catch (Exception ignored) {
 
         }

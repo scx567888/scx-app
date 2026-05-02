@@ -1,11 +1,11 @@
-package dev.scx.ffi.platform.win32.helper;
+package dev.scx.app.ffi.platform.win32.helper;
 
-import dev.scx.ffi.platform.win32.Win32Exception;
+import dev.scx.app.ffi.platform.win32.Win32Exception;
 
 import java.util.Map;
 
-import static dev.scx.ffi.platform.win32.WinReg.HKEY_CURRENT_USER;
-import static dev.scx.ffi.platform.win32.helper.Advapi32Helper.*;
+import static dev.scx.app.ffi.platform.win32.WinReg.HKEY_CURRENT_USER;
+import static dev.scx.app.ffi.platform.win32.helper.Advapi32Helper.*;
 
 /// 设置 windows 系统的代理 (使用前请检查当前操作系统是否为 Windows !!!)
 ///

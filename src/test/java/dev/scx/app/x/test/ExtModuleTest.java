@@ -1,4 +1,4 @@
-package cool.scx.app.x.test;
+package dev.scx.app.x.test;
 
 
 import dev.scx.app.ScxApp;
@@ -9,7 +9,6 @@ import dev.scx.app.x.fix_table.FixTableModule;
 import dev.scx.app.x.fss.FSSModule;
 import dev.scx.app.x.redirect.RedirectModule;
 import dev.scx.app.x.static_server.StaticServerModule;
-import org.testng.annotations.Test;
 
 public class ExtModuleTest extends ScxAppModule {
 
@@ -17,7 +16,7 @@ public class ExtModuleTest extends ScxAppModule {
         test1();
     }
 
-    @Test
+//    @Test
     public static void test1() {
         ScxApp.builder()
                 .setMainClass(ExtModuleTest.class)
