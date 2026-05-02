@@ -1,13 +1,13 @@
 package dev.scx.app.test;
 
 import dev.scx.app.annotation.Scheduled;
-import dev.scx.app.annotation.ScxService;
+import dev.scx.app.annotation.Component;
 
 import java.lang.System.Logger;
 
 import static java.lang.System.Logger.Level.ERROR;
 
-@ScxService
+@Component
 public class TestScheduleTask {
 
     private static final Logger logger = System.getLogger(TestScheduleTask.class.getName());

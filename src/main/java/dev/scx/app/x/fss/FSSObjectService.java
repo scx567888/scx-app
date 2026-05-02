@@ -1,6 +1,6 @@
 package dev.scx.app.x.fss;
 
-import dev.scx.app.annotation.ScxService;
+import dev.scx.app.annotation.Component;
 import dev.scx.app.base.BaseModelService;
 import dev.scx.app.util.FileUtils;
 
@@ -17,7 +17,7 @@ import static dev.scx.data.query.QueryBuilder.*;
  * @author scx567888
  * @version 0.0.1
  */
-@ScxService
+@Component
 public class FSSObjectService extends BaseModelService<FSSObject> {
 
     /**

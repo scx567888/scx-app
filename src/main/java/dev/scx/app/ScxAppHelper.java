@@ -2,7 +2,7 @@ package dev.scx.app;
 
 import dev.scx.app.annotation.Scheduled;
 import dev.scx.app.annotation.ScheduledList;
-import dev.scx.app.annotation.ScxService;
+import dev.scx.app.annotation.Component;
 import dev.scx.app.base.BaseModel;
 import dev.scx.app.base.BaseModelService;
 import dev.scx.app.util.ClassUtils;
@@ -65,7 +65,7 @@ public final class ScxAppHelper {
     /// Constant <code>beanFilterAnnotation</code>
     private static final List<Class<? extends Annotation>> beanFilterAnnotation = List.of(
         //scx 注解
-         ScxService.class, Routes.class);
+         Component.class, Routes.class);
 
     static Path findRootPathByScxModule(Class<? extends ScxAppModule> c) throws IOException {
         var classSource = getCodeSource(c);
@@ -115,7 +115,7 @@ public final class ScxAppHelper {
     }
 
     public static boolean isScxBaseModelServiceClass(Class<?> c) {
-        return c.isAnnotationPresent(ScxService.class) &&  // 拥有注解
+        return c.isAnnotationPresent(Component.class) &&  // 拥有注解
             ClassUtils.isNormalClass(c) && // 是一个普通的类 (不是接口, 不是抽象类) ; 此处不要求有必须有无参构造函数 因为此类的创建会由 beanFactory 进行处理
             c.getGenericSuperclass() instanceof ParameterizedType t && //需要有泛型参数
             t.getActualTypeArguments().length == 1; //并且泛型参数的数量必须是一个

@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 /// @version 0.0.1
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ScxService {
+public @interface Component {
 
 }
