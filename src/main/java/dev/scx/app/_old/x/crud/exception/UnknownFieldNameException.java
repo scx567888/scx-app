@@ -1,7 +1,7 @@
 package dev.scx.app._old.x.crud.exception;
 
 
-import dev.scx.app._old.web.Result;
+import dev.scx.app.web.Result;
 import dev.scx.http.exception.BadRequestException;
 
 /**

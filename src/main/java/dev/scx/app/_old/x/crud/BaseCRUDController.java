@@ -3,7 +3,7 @@ package dev.scx.app._old.x.crud;
 
 
 import dev.scx.app._old.base.BaseModelService;
-import dev.scx.app._old.web.Result;
+import dev.scx.app.web.Result;
 import dev.scx.web.annotation.Body;
 import dev.scx.web.annotation.BodyField;
 import dev.scx.web.annotation.PathCapture;

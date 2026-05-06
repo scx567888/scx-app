@@ -1,4 +1,4 @@
-package dev.scx.app._old.web;
+package dev.scx.app.web;
 
 import dev.scx.http.ScxHttpServerRequest;
 import dev.scx.serialize.ScxSerialize;

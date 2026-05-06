@@ -1,4 +1,4 @@
-package dev.scx.app._old;
+package dev.scx.app;
 
 import dev.scx.ansi.Ansi;
 

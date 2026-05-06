@@ -4,8 +4,8 @@ package dev.scx.app._old.x.fss;
 
 import dev.scx.app._old.util.FileUtils;
 import dev.scx.app._old.util.cache.Cache;
-import dev.scx.app._old.web.Image;
-import dev.scx.app._old.web.Result;
+import dev.scx.app.web.Image;
+import dev.scx.app.web.Result;
 import dev.scx.http.exception.InternalServerErrorException;
 import dev.scx.http.exception.NotFoundException;
 import dev.scx.http.media.multi_part.MultiPartPart;

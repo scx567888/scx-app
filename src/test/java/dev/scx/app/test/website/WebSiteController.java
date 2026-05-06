@@ -3,7 +3,7 @@ package dev.scx.app.test.website;
 import dev.scx.app._old.util.HttpHelper;
 import dev.scx.app._old.ScxAppContext;
 import dev.scx.app._old.util.ScxHttpClientHelper;
-import dev.scx.app._old.web.Template;
+import dev.scx.app.web.Template;
 import dev.scx.app._old.util.zip.ZipBuilder;
 import dev.scx.app.test.car.CarService;
 import dev.scx.app.test.person.Person;

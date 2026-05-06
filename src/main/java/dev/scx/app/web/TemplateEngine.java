@@ -1,4 +1,4 @@
-package dev.scx.app._old.web;
+package dev.scx.app.web;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
