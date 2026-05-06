@@ -1,7 +1,8 @@
-package dev.scx.config.source;
+package dev.scx.app.config;
 
 import dev.scx.node.Node;
 import dev.scx.reflect.TypeReference;
+import dev.scx.serialize.ScxSerialize;
 
 /// 配置文件类
 ///
