@@ -1,4 +1,4 @@
-package dev.scx.app._old.config;
+package dev.scx.app.config;
 
 import java.net.URI;
 import java.nio.file.Files;
