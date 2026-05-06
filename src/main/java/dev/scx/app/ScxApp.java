@@ -27,6 +27,9 @@ public class ScxApp {
         var definitions = new ArrayList<ScxAppModuleDefinition>();
 
         for (var appModule : appModules) {
+            // 模块自身也注入到 DI 中.
+            componentContainer.registerComponent(appModule.getClass().getName(),appModule);
+            // 收集模块定义
             var definition = appModule.define(defineContext);
             definitions.add(definition);
         }
@@ -64,8 +67,19 @@ public class ScxApp {
             componentContainer.registerComponent(componentInstance.getClass().getName(), componentInstance);
         }
 
-        // 验证
+        // 验证 DI 是否有问题
         componentContainer.initializeComponents();
+
+
+        // 初始化所有模块
+        for (var appModule : appModules) {
+            appModule.init(this);
+        }
+
+        // 启动所有模块
+        for (var appModule : appModules) {
+            appModule.start(this);
+        }
 
     }
 

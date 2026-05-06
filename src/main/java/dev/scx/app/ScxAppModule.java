@@ -9,6 +9,10 @@ public interface ScxAppModule {
         return ScxAppModuleDefinition.empty();
     }
 
+    default void init(ScxApp scxApp){
+
+    }
+
     default void start(ScxApp scxApp) {
 
     }
