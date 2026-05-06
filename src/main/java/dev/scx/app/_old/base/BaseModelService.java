@@ -1,7 +1,7 @@
 package dev.scx.app._old.base;
 
 import dev.scx.app._old.ScxAppContext;
-import dev.scx.app.annotation.Component;
+import dev.scx.app.component.Component;
 import dev.scx.data.Aggregator;
 import dev.scx.data.Finder;
 import dev.scx.data.Repository;

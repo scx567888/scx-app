@@ -1,7 +1,7 @@
 package dev.scx.app.test;
 
-import dev.scx.app.annotation.Scheduled;
-import dev.scx.app.annotation.Component;
+import dev.scx.app.scheduling.Scheduled;
+import dev.scx.app.component.Component;
 
 import java.lang.System.Logger;
 

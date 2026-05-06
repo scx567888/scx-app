@@ -1,4 +1,4 @@
-package dev.scx.app.annotation;
+package dev.scx.app.scheduling;
 
 import java.lang.annotation.*;
 

@@ -1,7 +1,7 @@
 package dev.scx.app._old;
 
-import dev.scx.app.annotation.Scheduled;
-import dev.scx.app.annotation.Component;
+import dev.scx.app.scheduling.Scheduled;
+import dev.scx.app.component.Component;
 import dev.scx.app._old.base.BaseModel;
 import dev.scx.app._old.base.BaseModelService;
 import dev.scx.app._old.util.ClassUtils;

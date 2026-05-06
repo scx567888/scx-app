@@ -1,4 +1,4 @@
-package dev.scx.app.annotation;
+package dev.scx.app.component;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
