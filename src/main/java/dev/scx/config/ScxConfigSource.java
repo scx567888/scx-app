@@ -1,4 +1,4 @@
-package dev.scx.app.config;
+package dev.scx.config;
 
 import dev.scx.node.ObjectNode;
 
