@@ -5,8 +5,8 @@ import dev.scx.app._old.ScxApp;
 // todo ?
 public interface ScxAppModule {
 
-    default void init(ScxAppInitContext initContext) {
-
+    default ScxAppModuleDefinition define(ScxAppDefineContext context) {
+        return ScxAppModuleDefinition.empty();
     }
 
     default void start(ScxApp scxApp) {
