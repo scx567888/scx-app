@@ -3,11 +3,17 @@ package dev.scx.app.config;
 import dev.scx.node.Node;
 import dev.scx.reflect.TypeReference;
 
+import java.io.File;
+
 /// 配置文件类
 ///
 /// @author scx567888
 /// @version 0.0.1
 public interface ScxConfig {
+
+    static ScxConfig of(File jsonFile) {
+        return new ScxConfigImpl(jsonFile);
+    }
 
     Node get(String path);
 
