@@ -1,26 +1,22 @@
-package dev.scx.app._old.x.static_server;
+package dev.scx.app.static_server;
 
+import dev.scx.app.ScxAppDefineContext;
+import dev.scx.app.ScxAppModule;
+import dev.scx.app.ScxAppModuleDefinition;
 import dev.scx.app._old.ScxApp;
-import dev.scx.app._old.ScxAppModule;
 import dev.scx.http.routing.Router;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
+import dev.scx.web.annotation.Routes;
 
-import java.lang.System.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.System.Logger.Level.DEBUG;
 
+public class ScxAppStaticServerModule implements ScxAppModule {
 
-/**
- * StaticServerModule
- *
- * @author scx567888
- * @version 0.0.1
- */
-public class StaticServerModule extends ScxAppModule {
 
-    private static final Logger logger = System.getLogger(StaticServerModule.class.getName());
+    private static final System.Logger logger = System.getLogger(ScxAppStaticServerModule.class.getName());
 
     private static void registerStaticServerHandler(Router router, List<StaticServer> staticServers) {
         for (var staticServer : staticServers) {
@@ -28,17 +24,19 @@ public class StaticServerModule extends ScxAppModule {
         }
     }
 
-
     @Override
-    public void start(ScxApp scx) {
-        var staticServers = scx.scxConfig().get("static-servers", new ConvertStaticServerHandler(scx.scxEnvironment()));
-        logger.log(DEBUG, "静态资源服务器 -->  {0}", staticServers.stream().map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
-        registerStaticServerHandler(scx.scxHttpRouter().router(), staticServers);
+    public ScxAppModuleDefinition define(ScxAppDefineContext context) {
+        return new ScxAppModuleDefinition()
+            .componentSelector(c ->
+                c.getAnnotation(Routes.class) != null
+            );
     }
 
     @Override
-    public String name() {
-        return "SCX_EXT-" + super.name();
+    public void init(ScxApp scx) {
+        var staticServers = scx.scxConfig().get("static-servers", new ConvertStaticServerHandler(scx.scxEnvironment()));
+        logger.log(DEBUG, "静态资源服务器 -->  {0}", staticServers.stream().map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
+        registerStaticServerHandler(scx.scxHttpRouter().router(), staticServers);
     }
 
 }

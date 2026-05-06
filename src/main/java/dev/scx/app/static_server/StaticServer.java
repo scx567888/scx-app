@@ -1,4 +1,4 @@
-package dev.scx.app._old.x.static_server;
+package dev.scx.app.static_server;
 
 import java.nio.file.Path;
 
