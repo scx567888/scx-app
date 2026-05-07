@@ -25,7 +25,7 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.util.Objects.requireNonNull;
 
-public class ScxLoggingAppModule implements ScxAppModule {
+public class ScxAppLoggingModule implements ScxAppModule {
 
     @Override
     public ScxAppModuleDefinition init(ScxAppInitContext context) {
@@ -38,7 +38,7 @@ public class ScxLoggingAppModule implements ScxAppModule {
         var defaultLevel = toLevel(scxConfig.get("scx.logging.default.level", String.class));
         var defaultType = toType(scxConfig.get("scx.logging.default.type", String.class));
         var defaultStoredDirectory = scxConfig.get("scx.logging.default.stored-directory", AppRootHandler.of(scxEnvironment, "AppRoot:logs"));
-        var defaultStackTrace = scxConfig.get("scx.logging.default.stack-trace", DefaultValueHandler.of(false));
+        var defaultStackTrace = scxConfig.getOrDefault("scx.logging.default.stack-trace", boolean.class,false);
 
         //设置默认的 config 这里我们先清除所有的 Recorders
         var defaultConfig = ScxLogging.rootConfig().clearRecorders();
@@ -52,8 +52,8 @@ public class ScxLoggingAppModule implements ScxAppModule {
         defaultConfig.setStackTrace(defaultStackTrace);
 
         //以下日志若有缺少的 storedDirectory 则全部以 defaultStoredDirectory 为准
-        var loggers = scxConfig.get("scx.logging.loggers", ConvertValueHandler.of(new TypeReference<List<Map<String, String>>>() {
-        }));
+        var loggers = scxConfig.get("scx.logging.loggers", new TypeReference<List<Map<String, String>>>() {
+        });
         if (loggers != null) {
             for (var logger : loggers) {
                 var name = logger.get("name");
@@ -64,10 +64,10 @@ public class ScxLoggingAppModule implements ScxAppModule {
                     var stackTrace = ScxSerialize.convertObject(logger.get("stack-trace"), Boolean.class);
                     var config = new ScxLoggerConfig();
                     config.setLevel(level);
-                    if (type == ScxAppHelper.LoggingType.CONSOLE || type == ScxAppHelper.LoggingType.BOTH) {
+                    if (type == LoggingType.CONSOLE || type == LoggingType.BOTH) {
                         config.addRecorder(new ConsoleRecorder());
                     }
-                    if (type == ScxAppHelper.LoggingType.FILE || type == ScxAppHelper.LoggingType.BOTH) {
+                    if (type == LoggingType.FILE || type == LoggingType.BOTH) {
                         //文件路径的缺省值使用 默认的
                         config.addRecorder(new FileRecorder(storedDirectory != null ? storedDirectory : defaultStoredDirectory));
                     }
