@@ -1,4 +1,4 @@
-package dev.scx.app._old.sql;
+package dev.scx.app.sql;
 
 import dev.scx.sql.BatchSQL;
 import dev.scx.sql.SQL;

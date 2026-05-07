@@ -1,4 +1,4 @@
-package dev.scx.app._old.sql.handler;
+package dev.scx.app.sql.handler;
 
 import dev.scx.reflect.TypeInfo;
 import dev.scx.sql.handler.TypeSQLHandler;
