@@ -1,8 +1,8 @@
-package dev.scx.app._old.x.redirect;
+package dev.scx.app.redirect;
 
 import dev.scx.ansi.Ansi;
-import dev.scx.app._old.ScxApp;
-import dev.scx.app._old.ScxAppModule;
+import dev.scx.app.ScxApp;
+import dev.scx.app.ScxAppModule;
 import dev.scx.http.uri.ScxURI;
 import dev.scx.http.x.HttpServer;
 
@@ -17,7 +17,7 @@ import static dev.scx.http.status_code.HttpStatusCode.TEMPORARY_REDIRECT;
  * @author scx567888
  * @version 0.0.1
  */
-public class RedirectModule extends ScxAppModule {
+public class RedirectModule implements ScxAppModule {
 
     private static final Logger logger = System.getLogger(RedirectModule.class.getName());
 
@@ -53,11 +53,6 @@ public class RedirectModule extends ScxAppModule {
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "转发服务器启动失败 !!! ", e);
         }
-    }
-
-    @Override
-    public String name() {
-        return "SCX_EXT-" + super.name();
     }
 
     @Override
