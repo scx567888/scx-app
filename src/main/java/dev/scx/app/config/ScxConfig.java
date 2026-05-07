@@ -11,8 +11,8 @@ import java.io.File;
 /// @version 0.0.1
 public interface ScxConfig {
 
-    static ScxConfig of(File jsonFile) {
-        return new ScxConfigImpl(jsonFile);
+    static ScxConfig of(File jsonFile,ScxEnvironment scxEnvironment) {
+        return new ScxConfigImpl(jsonFile,scxEnvironment);
     }
 
     Node get(String path);
