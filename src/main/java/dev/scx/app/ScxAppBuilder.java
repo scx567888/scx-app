@@ -21,5 +21,4 @@ public class ScxAppBuilder {
         return new ScxApp(appModules.toArray(ScxAppModule[]::new));
     }
 
-
 }
