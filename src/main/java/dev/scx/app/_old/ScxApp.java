@@ -1,15 +1,13 @@
 package dev.scx.app._old;
 
+import dev.scx.app.ScxAppContext;
 import dev.scx.app.ScxAppVersion;
-import dev.scx.app._old.eventbus.EventBus;
-import dev.scx.app._old.util.FileUtils;
-import dev.scx.app._old.util.StopWatch;
-import dev.scx.app._old.config.ScxConfig;
-import dev.scx.app._old.config.ScxEnvironment;
-import dev.scx.app._old.config.ScxFeatureConfig;
+import dev.scx.app.util.FileUtils;
+import dev.scx.app.util.StopWatch;
+import dev.scx.app.config.ScxConfig;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.ansi.Ansi;
 import dev.scx.collection.ScxCollection;
-import dev.scx.data.sql.schema_mapping.AnnotationConfigTable;
 import dev.scx.di.ComponentContainer;
 import dev.scx.http.ScxHttpServer;
 import dev.scx.http.x.HttpServer;
@@ -17,7 +15,6 @@ import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
 import dev.scx.http.x.http1.headers.upgrade.Upgrade;
 import dev.scx.sql.SQLClient;
-import dev.scx.app._old.sql.TableSupport;
 import dev.scx.tcp.tls.TLS;
 import dev.scx.web.ScxWeb;
 import dev.scx.web.ScxWebRoute;
@@ -35,12 +32,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import static dev.scx.app._old.ScxAppContext.GLOBAL_SCX;
-import static dev.scx.app._old.ScxAppHelper.*;
+import static dev.scx.app.ScxAppContext.GLOBAL_SCX;
+import static dev.scx.app.ScxAppHelper.*;
 import static dev.scx.app._old.enumeration.ScxAppFeature.*;
-import static dev.scx.app._old.util.NetUtils.getLocalIPAddress;
+import static dev.scx.app.util.NetUtils.getLocalIPAddress;
 import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
 
 /// 启动类
 ///
@@ -95,9 +91,7 @@ public final class ScxApp {
         this.beanFactory = initBeanFactory(this.scxModules, this.scxFeatureConfig);
         //4, 初始化事件总线
         this.eventBus = new EventBus(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2));
-        //4, 初始化 Web
-        this.scxWeb = new ScxWeb();
-        this.scxWeb.addReturnValueHandler(new TemplateReturnValueHandler(new TemplateEngine(scxOptions.templateRoot())));
+
     }
 
     public static ScxAppBuilder builder() {
@@ -254,71 +248,8 @@ public final class ScxApp {
         }
     }
 
-    public void fixTable() {
-        logger.log(DEBUG, "修复数据表结构中...");
-        //修复成功的表
-        var fixSuccess = 0;
-        //修复失败的表
-        var fixFail = 0;
-        //不需要修复的表
-        var noNeedToFix = 0;
-        for (var v : getAllScxBaseModelClassList()) {
-            //根据 class 获取 tableInfo
-            var tableInfo = new AnnotationConfigTable<>(v);
-            try {
-                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
-                    TableSupport.fixTable(tableInfo, sqlClient());
-                    fixSuccess = fixSuccess + 1;
-                } else {
-                    noNeedToFix = noNeedToFix + 1;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                fixFail = fixFail + 1;
-            }
-        }
 
-        if (fixSuccess != 0) {
-            logger.log(DEBUG, "修复成功 {0} 张表...", fixSuccess);
-        }
-        if (fixFail != 0) {
-            logger.log(WARNING, "修复失败 {0} 张表...", fixFail);
-        }
-        if (fixSuccess + fixFail == 0) {
-            logger.log(DEBUG, "没有表需要修复...");
-        }
 
-    }
-
-    /// 获取所有 class
-    ///
-    /// @return s
-    private List<Class<?>> getAllScxBaseModelClassList() {
-        return Arrays.stream(scxModules)
-                .flatMap(c -> c.classList().stream())
-                .filter(ScxAppHelper::isScxBaseModelClass)// 继承自 BaseModel
-                .toList();
-    }
-
-    /// 检查是否有任何 (BaseModel) 类需要修复表
-    ///
-    /// @return 是否有
-    public boolean checkNeedFixTable() {
-        logger.log(DEBUG, "检查数据表结构中...");
-        for (var v : getAllScxBaseModelClassList()) {
-            //根据 class 获取 tableInfo
-            var tableInfo = new AnnotationConfigTable<>(v);
-            try {
-                //有任何需要修复的直接 返回 true
-                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
     @SuppressWarnings("unchecked")
     public <T extends ScxAppModule> T findScxModule(Class<T> clazz) {

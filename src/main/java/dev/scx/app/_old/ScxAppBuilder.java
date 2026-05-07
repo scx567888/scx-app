@@ -1,14 +1,14 @@
 package dev.scx.app._old;
 
 import dev.scx.app._old.enumeration.ScxAppFeature;
-import dev.scx.app._old.util.ObjectUtils;
-import dev.scx.app._old.config.ScxConfig;
-import dev.scx.app._old.config.ScxConfigSource;
-import dev.scx.app._old.config.ScxEnvironment;
+import dev.scx.app.util.ObjectUtils;
+import dev.scx.app.config.ScxConfig;
+import dev.scx.config.ScxConfigSource;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.app._old.config.ScxFeatureConfig;
 import dev.scx.app._old.config.source.ArgsConfigSource;
-import dev.scx.app._old.config.source.JsonFileConfigSource;
-import dev.scx.app._old.config.source.MapConfigSource;
+import dev.scx.config.source.JsonFileConfigSource;
+import dev.scx.config.source.MapConfigSource;
 import dev.scx.http.x.HttpServerOptions;
 
 import java.util.*;
