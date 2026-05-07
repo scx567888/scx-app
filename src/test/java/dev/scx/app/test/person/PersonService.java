@@ -1,9 +1,9 @@
 package dev.scx.app.test.person;
 
-import dev.scx.app.annotation.ScxService;
-import dev.scx.app.base.BaseModelService;
+import dev.scx.app.component.Component;
+import dev.scx.app._old.base.BaseModelService;
 
-@ScxService
+@Component
 public class PersonService extends BaseModelService<Person> {
 
 }

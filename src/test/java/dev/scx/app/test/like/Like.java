@@ -1,6 +1,6 @@
 package dev.scx.app.test.like;
 
-import dev.scx.app.base.BaseModel;
+import dev.scx.app._old.base.BaseModel;
 import dev.scx.data.sql.annotation.Table;
 
 //特殊表名

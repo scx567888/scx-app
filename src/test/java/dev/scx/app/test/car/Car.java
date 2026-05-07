@@ -1,6 +1,6 @@
 package dev.scx.app.test.car;
 
-import dev.scx.app.base.BaseModel;
+import dev.scx.app._old.base.BaseModel;
 import dev.scx.data.sql.annotation.Column;
 import dev.scx.data.sql.annotation.NoColumn;
 import dev.scx.data.sql.annotation.Table;

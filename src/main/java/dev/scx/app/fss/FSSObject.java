@@ -1,0 +1,66 @@
+package dev.scx.app.fss;
+
+import dev.scx.app.base.BaseModel;
+import dev.scx.data.sql.annotation.Column;
+import dev.scx.data.sql.annotation.DataType;
+import dev.scx.data.sql.annotation.Table;
+
+import java.time.LocalDateTime;
+
+import static dev.scx.sql.schema.DataTypeKind.TEXT;
+
+/**
+ * 文件上传表
+ *
+ * @author scx567888
+ * @version 0.0.1
+ */
+@Table("scx_fss")
+public class FSSObject extends BaseModel {
+
+    /**
+     * 这里为了防止用户可以根据 id 猜测出来文件 业务中不使用 BaseModel 的 id
+     */
+    @Column(index = true, unique = true, notNull = true)
+    public String fssObjectID;
+
+    /**
+     * 文件存储的路径 (相对与上传根目录的)
+     */
+    // todo 这里如何隐藏这个字段
+    public String[] filePath;
+
+    /**
+     * 文件的大小 (格式化后的 就是人能看懂的那种)
+     */
+    public String fileSizeDisplay;
+
+    /**
+     * 文件的大小 long
+     */
+    public Long fileSize;
+
+    /**
+     * 原始文件名
+     */
+    @Column(dataType = @DataType(TEXT), notNull = true)
+    public String fileName;
+
+    /**
+     * 上传日期
+     */
+    public LocalDateTime uploadTime;
+
+    /**
+     * 文件的 hash 值 (目前采用 md5)
+     */
+    @Column(index = true, notNull = true)
+    public String fileHash;
+
+    /**
+     * 文件拓展名
+     */
+    @Column(dataType = @DataType(TEXT))
+    public String fileExtension;
+
+}

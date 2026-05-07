@@ -3,7 +3,7 @@ package dev.scx.ffi.platform.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static dev.scx.app.ffi.platform.c.C.C;
+import static dev.scx.app._old.platform.c.C.C;
 
 public class CTest {
 

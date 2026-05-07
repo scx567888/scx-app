@@ -1,7 +1,7 @@
 package dev.scx.app.test;
 
-import dev.scx.app.util.zip.GunzipBuilder;
-import dev.scx.app.util.zip.GzipBuilder;
+import dev.scx.app._old.util.zip.GunzipBuilder;
+import dev.scx.app._old.util.zip.GzipBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

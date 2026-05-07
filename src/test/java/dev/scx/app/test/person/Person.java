@@ -1,6 +1,6 @@
 package dev.scx.app.test.person;
 
-import dev.scx.app.base.BaseModel;
+import dev.scx.app._old.base.BaseModel;
 import dev.scx.data.sql.annotation.Table;
 
 @Table("person")

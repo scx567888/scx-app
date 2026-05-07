@@ -2,7 +2,6 @@ package dev.scx.app.util;
 
 import dev.scx.io.ByteInput;
 import dev.scx.io.ScxIO;
-import dev.scx.io.indexer.ByteIndexer;
 
 import java.io.File;
 import java.io.IOException;

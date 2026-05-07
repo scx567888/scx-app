@@ -173,8 +173,8 @@
     <properties>
 
         <!-- *********************** 以下为依赖包版本 *********************** -->
-        <scx-web.version>0.3.0</scx-web.version>
-        <scx-data-sql.version>0.1.0</scx-data-sql.version>
+        <scx-web.version>0.4.0</scx-web.version>
+        <scx-data-sql.version>0.2.0</scx-data-sql.version>
         <scx-scheduling.version>0.2.0</scx-scheduling.version>
         <scx-di.version>0.2.0</scx-di.version>
         <scx-ansi.version>0.2.0</scx-ansi.version>
@@ -186,7 +186,7 @@
         <freemarker.version>2.3.34</freemarker.version>
         <hikaricp.version>7.0.2</hikaricp.version>
         <jasypt.version>1.9.3</jasypt.version>
-        <scx-sql-mysql.version>0.2.0</scx-sql-mysql.version>
+        <scx-sql-mysql.version>0.3.0</scx-sql-mysql.version>
         <testng.version>7.11.0</testng.version>
 
     </properties>

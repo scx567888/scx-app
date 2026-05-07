@@ -1,7 +1,7 @@
 package dev.scx.app.base;
 
 import dev.scx.app.ScxAppContext;
-import dev.scx.app.annotation.ScxService;
+import dev.scx.app.component.Component;
 import dev.scx.data.Aggregator;
 import dev.scx.data.Finder;
 import dev.scx.data.Repository;
@@ -20,7 +20,7 @@ import static dev.scx.data.field_policy.FieldPolicyBuilder.includeAll;
 import static dev.scx.data.query.QueryBuilder.*;
 
 /// 提供一些针对 BaseModel 类型实体类 简单的 CRUD 操作的 service 类
-/// 业务 service 可以继承此类 (注意 : 如需要被 beanFactory 扫描到 请标注 [ScxService] 注解)
+/// 业务 service 可以继承此类 (注意 : 如需要被 beanFactory 扫描到 请标注 [Component] 注解)
 ///
 /// 或手动创建 : new BaseModelService()
 ///

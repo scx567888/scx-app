@@ -1,39 +1,28 @@
 package dev.scx.app.config;
 
-import dev.scx.app.config.handler.ConvertValueHandler;
-import dev.scx.app.config.handler.DefaultValueHandler;
-import dev.scx.app.config.source.MultiConfigSource;
 import dev.scx.node.Node;
+import dev.scx.reflect.TypeReference;
+
+import java.io.File;
 
 /// 配置文件类
 ///
 /// @author scx567888
 /// @version 0.0.1
-public final class ScxConfig extends MultiConfigSource {
+public interface ScxConfig {
 
-    public ScxConfig(ScxConfigSource... scxConfigSources) {
-        super(scxConfigSources);
+    static ScxConfig of(File jsonFile,ScxEnvironment scxEnvironment) {
+        return new ScxConfigImpl(jsonFile,scxEnvironment);
     }
 
-    /// 从配置文件中获取配置值
-    /// 没有找到会返回 null
-    ///
-    /// @param keyPath keyPath
-    /// @return a T object.
-    public Node get(String keyPath) {
-        return NodeHelper.get(configMapping, keyPath);
-    }
+    Node get(String path);
 
-    public <T> T get(String keyPath, ScxConfigValueHandler<T> handler) {
-        return handler.handle(keyPath, get(keyPath));
-    }
+    <T> T get(String path, Class<T> type);
 
-    public <T> T getOrDefault(String keyPath, T defaultVal) {
-        return get(keyPath, DefaultValueHandler.of(defaultVal));
-    }
+    <T> T get(String path, TypeReference<T> type);
 
-    public <T> T get(String keyPath, Class<T> type) {
-        return get(keyPath, ConvertValueHandler.of(type));
-    }
+    <T> T getOrDefault(String path, Class<T> type, T defaultValue);
+
+    <T> T getOrDefault(String path, TypeReference<T> type, T defaultValue);
 
 }
