@@ -1,11 +1,10 @@
 package dev.scx.app.logging;
 
-import dev.scx.app.ScxApp;
-import dev.scx.app.ScxAppDefineContext;
+import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
-import dev.scx.app._old.ScxAppHelper;
-import dev.scx.app._old.util.ObjectUtils;
+import dev.scx.app.ScxAppHelper;
+import dev.scx.app.util.ObjectUtils;
 import dev.scx.app.config.ScxConfig;
 import dev.scx.app.config.ScxEnvironment;
 import dev.scx.logging.ScxLoggerConfig;
@@ -29,9 +28,9 @@ import static java.util.Objects.requireNonNull;
 public class ScxLoggingAppModule implements ScxAppModule {
 
     @Override
-    public ScxAppModuleDefinition define(ScxAppDefineContext context) {
+    public ScxAppModuleDefinition init(ScxAppInitContext context) {
         initScxLoggerFactory0(context.config(),context.environment());
-        return ScxAppModuleDefinition.empty();
+        return ScxAppModuleDefinition.of();
     }
 
     static void initScxLoggerFactory0(ScxConfig scxConfig, ScxEnvironment scxEnvironment) {
