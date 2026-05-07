@@ -1,7 +1,9 @@
 package dev.scx.app.cors;
 
+import dev.scx.app.ScxApp;
+import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
-import dev.scx.app._old.ScxApp;
+import dev.scx.app.ScxAppModuleDefinition;
 import dev.scx.app.http.ScxAppHttpModule;
 import dev.scx.http.headers.HttpHeaderName;
 import dev.scx.http.method.HttpMethod;
@@ -34,7 +36,12 @@ public class ScxAppCorsModule implements ScxAppModule {
     private  Route corsHandlerRoute;
 
     @Override
-    public void init(ScxApp scxApp) {
+    public ScxAppModuleDefinition init(ScxAppInitContext context) {
+        return ScxAppModuleDefinition.of().startBefore(ScxAppHttpModule.class);
+    }
+
+    @Override
+    public void start(ScxApp scxApp) {
         var httpModule = scxApp.getBean(ScxAppHttpModule.class);
         Router router = httpModule.router();
 
@@ -45,8 +52,6 @@ public class ScxAppCorsModule implements ScxAppModule {
         router.route(-10000,this.corsHandlerRoute);
 
     }
-
-
 
     private static CorsHandler initCorsHandler(String allowedOriginPattern) {
         return CorsHandler.of()
