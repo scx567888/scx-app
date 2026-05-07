@@ -2,7 +2,7 @@ package dev.scx.app.http;
 
 import dev.scx.ansi.Ansi;
 import dev.scx.app.ScxApp;
-import dev.scx.app.ScxAppDefineContext;
+import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
 import dev.scx.http.ScxHttpServer;
@@ -12,8 +12,6 @@ import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
 import dev.scx.http.x.http1.headers.upgrade.Upgrade;
 import dev.scx.tcp.tls.TLS;
-import dev.scx.web.ScxWeb;
-import dev.scx.web.annotation.Routes;
 import dev.scx.websocket.x.WebSocketUpgradeRequestFactory;
 
 import java.io.IOException;
@@ -22,7 +20,7 @@ import java.net.Inet4Address;
 import java.nio.file.Path;
 
 import static dev.scx.app._old.enumeration.ScxAppFeature.USE_DEVELOPMENT_ERROR_PAGE;
-import static dev.scx.app._old.util.NetUtils.getLocalIPAddress;
+import static dev.scx.app.util.NetUtils.getLocalIPAddress;
 
 public class ScxAppHttpModule implements ScxAppModule {
 
@@ -41,16 +39,16 @@ public class ScxAppHttpModule implements ScxAppModule {
     }
 
     @Override
-    public void init(ScxApp scxApp) {
+    public ScxAppModuleDefinition init(ScxAppInitContext context) {
         var httpServerOptions = this.defaultHttpServerOptions != null ?
             new HttpServerOptions(this.defaultHttpServerOptions) :
             new HttpServerOptions();
 
         httpServerOptions.maxPayloadSize(DEFAULT_BODY_LIMIT);
 
-        var httpsEnabled = scxApp.scxConfig().get("xxxxx", boolean.class);
-        var sslPath = scxApp.scxConfig().get("xxxxx", Path.class);
-        var sslPassword = scxApp.scxConfig().get("xxxxx", String.class);
+        var httpsEnabled = context.config().get("xxxxx", boolean.class);
+        var sslPath = context.config().get("xxxxx", Path.class);
+        var sslPassword = context.config().get("xxxxx", String.class);
 
         if (httpsEnabled) {
             var tls = TLS.of(sslPath, sslPassword);
@@ -71,7 +69,9 @@ public class ScxAppHttpModule implements ScxAppModule {
 
         httpServer = new HttpServer(httpServerOptions)
             .onRequest(router)
-            .onError(new DefaultHttpServerErrorHandler(scxApp.scxFeatureConfig().get(USE_DEVELOPMENT_ERROR_PAGE)));
+            .onError(new DefaultHttpServerErrorHandler(context.config().get(USE_DEVELOPMENT_ERROR_PAGE)));
+
+        return ScxAppModuleDefinition.of();
     }
 
     @Override
