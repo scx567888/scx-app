@@ -1,4 +1,4 @@
-package dev.scx.app._old.base;
+package dev.scx.app.base;
 
 import dev.scx.data.sql.annotation.Column;
 

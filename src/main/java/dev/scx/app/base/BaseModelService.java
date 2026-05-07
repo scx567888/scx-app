@@ -1,6 +1,6 @@
-package dev.scx.app._old.base;
+package dev.scx.app.base;
 
-import dev.scx.app._old.ScxAppContext;
+import dev.scx.app.ScxAppContext;
 import dev.scx.app.component.Component;
 import dev.scx.data.Aggregator;
 import dev.scx.data.Finder;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static dev.scx.app._old.ScxAppHelper.findBaseModelServiceEntityClass;
+import static dev.scx.app.ScxAppHelper.findBaseModelServiceEntityClass;
 import static dev.scx.data.field_policy.FieldPolicyBuilder.includeAll;
 import static dev.scx.data.query.QueryBuilder.*;
 
