@@ -19,8 +19,6 @@ import dev.scx.tcp.tls.TLS;
 import dev.scx.web.ScxWeb;
 import dev.scx.web.ScxWebRoute;
 import dev.scx.web.annotation.Routes;
-import dev.scx.app.web.TemplateEngine;
-import dev.scx.app.web.TemplateReturnValueHandler;
 import dev.scx.websocket.x.WebSocketUpgradeRequestFactory;
 
 import javax.sql.DataSource;
@@ -42,9 +40,9 @@ import static java.lang.System.Logger.Level.DEBUG;
 ///
 /// @author scx567888
 /// @version 0.0.1
-public final class ScxApp {
+public final class ScxAppOld {
 
-    static final Logger logger = System.getLogger(ScxApp.class.getName());
+    static final Logger logger = System.getLogger(ScxAppOld.class.getName());
 
     /// 默认 http 请求 body 限制大小
     private static final long DEFAULT_BODY_LIMIT = FileUtils.displaySizeToLong("16384KB");
@@ -74,7 +72,7 @@ public final class ScxApp {
 
     private ScxHttpServer httpServer = null;
 
-    ScxApp(ScxEnvironment scxEnvironment, String appKey, ScxFeatureConfig scxFeatureConfig, ScxConfig scxConfig, ScxAppModule[] scxModules, Object defaultHttpServerOptions) {
+    ScxAppOld(ScxEnvironment scxEnvironment, String appKey, ScxFeatureConfig scxFeatureConfig, ScxConfig scxConfig, ScxAppModule[] scxModules, Object defaultHttpServerOptions) {
         //0, 赋值到全局
         ScxAppContext.scx(this);
         //1, 初始化基本参数
@@ -94,8 +92,8 @@ public final class ScxApp {
 
     }
 
-    public static ScxAppBuilder builder() {
-        return new ScxAppBuilder();
+    public static ScxAppBuilderOld builder() {
+        return new ScxAppBuilderOld();
     }
 
     /// 执行模块启动的生命周期
@@ -126,12 +124,12 @@ public final class ScxApp {
         }
     }
 
-    public ScxApp run() {
+    public ScxAppOld run() {
         return ScopedValue.where(GLOBAL_SCX, this).call(this::run0);
     }
 
     /// 运行项目
-    private ScxApp run0() {
+    private ScxAppOld run0() {
         //0, 启动 核心计时器
         StopWatch.start("ScxRun");
         //1, 根据配置打印一下 banner 或者配置文件信息之类

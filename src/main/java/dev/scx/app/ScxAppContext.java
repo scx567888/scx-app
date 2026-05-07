@@ -1,6 +1,6 @@
 package dev.scx.app;
 
-import dev.scx.app._old.ScxApp;
+import dev.scx.app._old.ScxAppOld;
 import dev.scx.app._old.enumeration.ScxAppFeature;
 import dev.scx.app._old.eventbus.EventBus;
 import dev.scx.app.config.ScxConfig;
@@ -30,22 +30,22 @@ public final class ScxAppContext {
     /// 全局唯一的 SCX APP
     /// 为了保证方法使用的简易 我们建议使用静态的方法
     /// 但是其本质上是调用 GLOBAL_UNIQUE_SCX_APP 方法中的实例对象
-    final static ScopedValue<dev.scx.app._old.ScxApp> GLOBAL_SCX = ScopedValue.newInstance();
+    final static ScopedValue<ScxAppOld> GLOBAL_SCX = ScopedValue.newInstance();
 
     /// 兼容 旧版本 todo 待移除
-    private static dev.scx.app._old.ScxApp GLOBAL_SCX_0 = null;
+    private static ScxAppOld GLOBAL_SCX_0 = null;
 
     /// 设置全局的 Scx 兼容 旧版本 todo 待移除
     ///
     /// @param scx scx
-    static void scx(dev.scx.app._old.ScxApp scx) {
+    static void scx(ScxAppOld scx) {
         GLOBAL_SCX_0 = scx;
     }
 
     /// 获取全局的 Scx
     ///
     /// @return scx
-    public static ScxApp scx() {
+    public static ScxAppOld scx() {
         if (GLOBAL_SCX.isBound()) {
             return GLOBAL_SCX.get();
         } else {
