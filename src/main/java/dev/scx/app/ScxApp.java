@@ -8,14 +8,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ScxApp {
+public final class ScxApp {
 
     private final List<ScxAppModule> appModules;
+
     private final ComponentContainer componentContainer;
+
+    private List<ScxAppModule> sortedAppModules;
+
+    private final List<ScxAppModule> startedAppModules = new ArrayList<>();
 
     public ScxApp(ScxAppModule[] appModules) {
         this.appModules = List.of(appModules);
         this.componentContainer = new DefaultComponentContainer();
+        this.sortedAppModules = List.of();
     }
 
     public static ScxAppBuilder builder() {
@@ -23,17 +29,21 @@ public class ScxApp {
     }
 
     public void run() {
-        var defineContext = new ScxAppDefineContext();
+        var initContext = new ScxAppInitContext();
         var definitions = new ArrayList<ScxAppModuleDefinition>();
 
+        // 1. 调用所有模块 init, 收集 definition
         for (var appModule : appModules) {
-            // 模块自身也注入到 DI 中.
-            componentContainer.registerComponent(appModule.getClass().getName(),appModule);
-            // 收集模块定义
-            var definition = appModule.define(defineContext);
+            componentContainer.registerComponent(appModule.getClass().getName(), appModule);
+
+            var definition = appModule.init(initContext);
             definitions.add(definition);
         }
 
+        // 2. 根据 definition 计算 start 顺序
+        this.sortedAppModules = ScxAppModuleStartOrderResolver.resolve(appModules, definitions);
+
+        // 3. 汇总组件定义
         var allCandidates = new HashSet<Class<?>>();
         var allComponentSelectors = new ArrayList<Predicate<Class<?>>>();
         var allComponentInstances = new ArrayList<>();
@@ -44,43 +54,67 @@ public class ScxApp {
             allComponentInstances.addAll(definition.componentInstances());
         }
 
+        // 4. 根据所有 selector 从所有 candidates 中筛选组件类
         var allComponentClass = new ArrayList<Class<?>>();
 
         for (var candidate : allCandidates) {
-
-            // 任意一个 选择器 为 true 就认为是一个 ComponentClass
-            selector:
             for (var componentSelector : allComponentSelectors) {
                 if (componentSelector.test(candidate)) {
                     allComponentClass.add(candidate);
-                    break selector;
+                    break;
                 }
             }
-
         }
 
+        // 5. 注册组件类
         for (var componentClass : allComponentClass) {
             componentContainer.registerComponentClass(componentClass.getName(), componentClass);
         }
 
+        // 6. 注册组件实例
         for (var componentInstance : allComponentInstances) {
             componentContainer.registerComponent(componentInstance.getClass().getName(), componentInstance);
         }
 
-        // 验证 DI 是否有问题
+        // 7. 初始化 DI
         componentContainer.initializeComponents();
 
+        // 8. 按排序启动模块
+        try {
+            for (var appModule : sortedAppModules) {
+                appModule.start(this);
+                startedAppModules.add(appModule);
+            }
+        } catch (Throwable e) {
+            stopStartedModules(e);
+            throw e;
+        }
+    }
 
-        // 初始化所有模块
-        for (var appModule : appModules) {
-            appModule.init(this);
+    public void stop() {
+        stopStartedModules(null);
+    }
+
+    private void stopStartedModules(Throwable cause) {
+        for (var i = startedAppModules.size() - 1; i >= 0; i = i - 1) {
+            var appModule = startedAppModules.get(i);
+
+            try {
+                appModule.stop(this);
+            } catch (Throwable stopError) {
+                if (cause != null) {
+                    cause.addSuppressed(stopError);
+                } else {
+                    throw stopError;
+                }
+            }
         }
 
-        // 启动所有模块
-        for (var appModule : appModules) {
-            appModule.start(this);
-        }
+        startedAppModules.clear();
+    }
 
+    public ComponentContainer componentContainer() {
+        return componentContainer;
     }
 
 }

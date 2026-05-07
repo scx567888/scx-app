@@ -1,10 +1,10 @@
 package dev.scx.app;
 
-import dev.scx.app._old.config.ScxConfig;
-import dev.scx.app._old.config.ScxEnvironment;
+import dev.scx.app.config.ScxConfig;
+import dev.scx.app.config.ScxEnvironment;
 
 // todo ?
-public class ScxAppDefineContext {
+public class ScxAppInitContext {
 
     public ScxConfig config(){
         return null;
