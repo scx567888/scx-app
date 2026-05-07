@@ -73,7 +73,8 @@ public class ScxAppModuleDefinition {
     }
 
     /// 添加当前模块提供的组件选择器.
-    public ScxAppModuleDefinition componentSelector(Predicate<Class<?>>... componentSelector) {
+    @SafeVarargs
+    public final ScxAppModuleDefinition componentSelector(Predicate<Class<?>>... componentSelector) {
         this.componentSelectors.addAll(List.of(componentSelector));
         return this;
     }
