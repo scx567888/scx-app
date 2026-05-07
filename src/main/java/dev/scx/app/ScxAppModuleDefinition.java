@@ -14,23 +14,30 @@ import java.util.function.Predicate;
 /// @version 0.0.1
 public class ScxAppModuleDefinition {
 
-    private final List<Class<?>> candidates = new ArrayList<>();
+    private final List<Class<?>> candidates;
 
-    private final List<Predicate<Class<?>>> componentSelectors = new ArrayList<>();
+    private final List<Predicate<Class<?>>> componentSelectors;
 
-    private final List<Object> componentInstances = new ArrayList<>();
+    private final List<Object> componentInstances;
 
-    public static ScxAppModuleDefinition empty() {
+    private final List<Class<? extends ScxAppModule>> startBefores;
+
+    private final List<Class<? extends ScxAppModule>> startAfters;
+
+    private ScxAppModuleDefinition() {
+        this.candidates = new ArrayList<>();
+        this.componentSelectors = new ArrayList<>();
+        this.componentInstances = new ArrayList<>();
+        this.startBefores = new ArrayList<>();
+        this.startAfters = new ArrayList<>();
+    }
+
+    public static ScxAppModuleDefinition of() {
         return new ScxAppModuleDefinition();
     }
 
     public List<Class<?>> candidates() {
         return candidates;
-    }
-
-    public ScxAppModuleDefinition candidates(Collection<Class<?>> candidates) {
-        this.candidates.addAll(candidates);
-        return this;
     }
 
     public ScxAppModuleDefinition candidate(Class<?>... candidates) {
@@ -42,13 +49,8 @@ public class ScxAppModuleDefinition {
         return componentSelectors;
     }
 
-    public ScxAppModuleDefinition componentSelector(Predicate<Class<?>> componentSelector) {
-        this.componentSelectors.add(componentSelector);
-        return this;
-    }
-
-    public ScxAppModuleDefinition componentSelectors(Collection<Predicate<Class<?>>> componentSelectors) {
-        this.componentSelectors.addAll(componentSelectors);
+    public ScxAppModuleDefinition componentSelector(Predicate<Class<?>>... componentSelector) {
+        this.componentSelectors.addAll(List.of(componentSelector));
         return this;
     }
 
@@ -56,8 +58,26 @@ public class ScxAppModuleDefinition {
         return componentInstances;
     }
 
-    public <T> ScxAppModuleDefinition componentInstance(T component) {
-        this.componentInstances.add( component);
+    public ScxAppModuleDefinition componentInstance(Object... component) {
+        this.componentInstances.addAll(List.of(component));
+        return this;
+    }
+
+    public List<Class<? extends ScxAppModule>> startBefores() {
+        return startBefores;
+    }
+
+    public ScxAppModuleDefinition startBefore(Class<? extends ScxAppModule>... startBefores) {
+        this.startBefores.addAll(List.of(startBefores));
+        return this;
+    }
+
+    public List<Class<? extends ScxAppModule>> startAfters() {
+        return startAfters;
+    }
+
+    public ScxAppModuleDefinition startAfter(Class<? extends ScxAppModule>... startAfters) {
+        this.startAfters.addAll(List.of(startAfters));
         return this;
     }
 

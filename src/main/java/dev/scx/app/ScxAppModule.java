@@ -1,20 +1,21 @@
 package dev.scx.app;
 
-// todo ?
+
 public interface ScxAppModule {
 
-    default ScxAppModuleDefinition define(ScxAppDefineContext context) {
-        return ScxAppModuleDefinition.empty();
+    /// 收集 类, 注册 组件选择器
+    ///
+    /// @return
+    default ScxAppModuleDefinition init(ScxAppInitContext context) {
+        return ScxAppModuleDefinition.of();
     }
 
-    default void init(ScxApp scxApp){
-
-    }
-
+    /// start
     default void start(ScxApp scxApp) {
 
     }
 
+    /// stop
     default void stop(ScxApp scxApp) {
 
     }
