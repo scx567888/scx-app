@@ -1,6 +1,6 @@
-package dev.scx.app._old.x.fss;
+package dev.scx.app.fss;
 
-import dev.scx.app._old.base.BaseModel;
+import dev.scx.app.base.BaseModel;
 import dev.scx.data.sql.annotation.Column;
 import dev.scx.data.sql.annotation.DataType;
 import dev.scx.data.sql.annotation.Table;

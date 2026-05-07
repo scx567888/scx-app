@@ -1,7 +1,7 @@
-package dev.scx.app._old.x.fss;
+package dev.scx.app.fss;
 
-import dev.scx.app._old.ScxApp;
-import dev.scx.app._old.config.handler.AppRootHandler;
+
+import dev.scx.app.ScxApp;
 
 import java.lang.System.Logger;
 import java.nio.file.Path;

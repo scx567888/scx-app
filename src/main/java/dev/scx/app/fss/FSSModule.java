@@ -1,7 +1,7 @@
-package dev.scx.app._old.x.fss;
+package dev.scx.app.fss;
 
-import dev.scx.app._old.ScxApp;
-import dev.scx.app._old.ScxAppModule;
+import dev.scx.app.ScxApp;
+import dev.scx.app.ScxAppModule;
 
 import java.lang.System.Logger;
 
@@ -11,7 +11,7 @@ import java.lang.System.Logger;
  * @author scx567888
  * @version 0.0.1
  */
-public class FSSModule extends ScxAppModule {
+public class FSSModule implements ScxAppModule {
 
     private static final Logger logger = System.getLogger(FSSModule.class.getName());
 
@@ -22,11 +22,6 @@ public class FSSModule extends ScxAppModule {
     @Override
     public void start(ScxApp scx) {
         FSSConfig.initConfig(scx);
-    }
-
-    @Override
-    public String name() {
-        return "SCX_EXT-" + super.name();
     }
 
 }
