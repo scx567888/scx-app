@@ -1,7 +1,7 @@
 package dev.scx.app.static_server;
 
 import dev.scx.app._old.config.ScxConfigValueHandler;
-import dev.scx.app._old.config.ScxEnvironment;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.app._old.config.handler.DefaultValueHandler;
 import dev.scx.node.Node;
 

@@ -100,7 +100,8 @@ public class ScxAppModuleDefinition {
     /// 声明当前模块的 start 需要早于指定模块执行.
     ///
     /// 被引用的模块必须存在于当前 ScxApp 中.
-    public ScxAppModuleDefinition startBefore(Class<? extends ScxAppModule>... startBefores) {
+    @SafeVarargs
+    public final ScxAppModuleDefinition startBefore(Class<? extends ScxAppModule>... startBefores) {
         this.startBefores.addAll(List.of(startBefores));
         return this;
     }
@@ -113,7 +114,8 @@ public class ScxAppModuleDefinition {
     /// 声明当前模块的 start 需要晚于指定模块执行.
     ///
     /// 被引用的模块必须存在于当前 ScxApp 中.
-    public ScxAppModuleDefinition startAfter(Class<? extends ScxAppModule>... startAfters) {
+    @SafeVarargs
+    public final ScxAppModuleDefinition startAfter(Class<? extends ScxAppModule>... startAfters) {
         this.startAfters.addAll(List.of(startAfters));
         return this;
     }
