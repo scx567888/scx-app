@@ -1,4 +1,4 @@
-package dev.scx.app._old.x.crud.serialization;
+package dev.scx.app.crud.serialization;
 
 /// 序列化异常
 public class SerializationException extends Exception {

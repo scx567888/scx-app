@@ -1,13 +1,13 @@
-package dev.scx.app._old.x.crud;
+package dev.scx.app.crud;
 
-import dev.scx.app._old.x.crud.serialization.DeserializationException;
+import dev.scx.app.crud.serialization.DeserializationException;
 import dev.scx.data.field_policy.FieldPolicy;
 import dev.scx.data.query.Query;
 import dev.scx.http.exception.BadRequestException;
 import dev.scx.node.Node;
 
-import static dev.scx.app._old.x.crud.serialization.FieldPolicyDeserializer.deserializeFieldPolicy;
-import static dev.scx.app._old.x.crud.serialization.QueryDeserializer.deserializeQuery;
+import static dev.scx.app.crud.serialization.FieldPolicyDeserializer.deserializeFieldPolicy;
+import static dev.scx.app.crud.serialization.QueryDeserializer.deserializeQuery;
 import static dev.scx.data.field_policy.FieldPolicyBuilder.includeAll;
 import static dev.scx.data.query.QueryBuilder.query;
 import static dev.scx.node.NullNode.NULL;

@@ -1,8 +1,8 @@
-package dev.scx.app._old.x.crud;
+package dev.scx.app.crud;
 
-import dev.scx.app._old.base.BaseModel;
-import dev.scx.app._old.base.BaseModelService;
-import dev.scx.app._old.x.crud.exception.UnknownFieldNameException;
+import dev.scx.app.base.BaseModel;
+import dev.scx.app.base.BaseModelService;
+import dev.scx.app.crud.exception.UnknownFieldNameException;
 import dev.scx.data.sql.annotation.NoColumn;
 import dev.scx.http.exception.BadRequestException;
 import dev.scx.reflect.ClassInfo;

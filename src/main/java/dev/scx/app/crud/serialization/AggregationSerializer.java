@@ -1,4 +1,4 @@
-package dev.scx.app._old.x.crud.serialization;
+package dev.scx.app.crud.serialization;
 
 import dev.scx.data.aggregation.*;
 import dev.scx.format.NodeToFormatException;

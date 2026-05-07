@@ -1,6 +1,6 @@
-package dev.scx.app._old.x.crud.parameter_handler.crud_update_param;
+package dev.scx.app.crud.parameter_handler.crud_update_param;
 
-import dev.scx.app._old.x.crud.CRUDUpdateParam;
+import dev.scx.app.crud.CRUDUpdateParam;
 import dev.scx.reflect.ParameterInfo;
 import dev.scx.web.parameter_handler.ParameterHandler;
 import dev.scx.web.parameter_handler.ParameterHandlerBuilder;

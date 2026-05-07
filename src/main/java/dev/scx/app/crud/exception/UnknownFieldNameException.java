@@ -1,4 +1,4 @@
-package dev.scx.app._old.x.crud.exception;
+package dev.scx.app.crud.exception;
 
 
 import dev.scx.app.web.Result;

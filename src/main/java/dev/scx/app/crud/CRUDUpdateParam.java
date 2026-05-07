@@ -1,6 +1,6 @@
-package dev.scx.app._old.x.crud;
+package dev.scx.app.crud;
 
-import dev.scx.app._old.base.BaseModel;
+import dev.scx.app.base.BaseModel;
 import dev.scx.data.field_policy.FieldPolicy;
 import dev.scx.data.sql.schema_mapping.EntityTable;
 

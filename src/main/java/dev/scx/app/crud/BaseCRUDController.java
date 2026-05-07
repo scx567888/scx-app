@@ -1,8 +1,8 @@
-package dev.scx.app._old.x.crud;
+package dev.scx.app.crud;
 
 
 
-import dev.scx.app._old.base.BaseModelService;
+import dev.scx.app.base.BaseModelService;
 import dev.scx.app.web.Result;
 import dev.scx.web.annotation.Body;
 import dev.scx.web.annotation.BodyField;
@@ -12,8 +12,8 @@ import dev.scx.web.result.WebResult;
 
 import java.util.Map;
 
-import static dev.scx.app._old.ScxAppContext.getBean;
-import static dev.scx.app._old.x.crud.CRUDHelper.findBaseModelServiceClass;
+import static dev.scx.app.ScxAppContext.getBean;
+import static dev.scx.app.crud.CRUDHelper.findBaseModelServiceClass;
 import static dev.scx.data.query.BuildControl.SKIP_IF_NULL;
 import static dev.scx.data.query.QueryBuilder.and;
 import static dev.scx.http.method.HttpMethod.*;
