@@ -42,7 +42,7 @@ public class ScxAppCorsModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scxApp) {
-        var httpModule = scxApp.getBean(ScxAppHttpModule.class);
+        ScxAppHttpModule httpModule = scxApp.getBean(ScxAppHttpModule.class);
         Router router = httpModule.router();
 
         //设置基本的 handler
