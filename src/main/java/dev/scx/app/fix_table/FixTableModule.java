@@ -11,6 +11,8 @@ import dev.scx.data.sql.schema_mapping.AnnotationConfigTable;
 import java.util.Arrays;
 import java.util.List;
 
+import static dev.scx.app.ScxAppContext.sqlClient;
+import static dev.scx.app.ScxAppHelper.dataSourceExceptionHandler;
 import static java.lang.System.Logger.Level.*;
 
 /**
@@ -49,7 +51,7 @@ public class FixTableModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-        if (!scx.checkDataSource()) {
+        if (!checkDataSource()) {
             logger.log(ERROR, "数据源连接失败!!! 已跳过修复表!!!");
             return;
         }
@@ -137,9 +139,55 @@ public class FixTableModule implements ScxAppModule {
     /// @param c a
     /// @return a
     public static boolean isScxBaseModelClass(Class<?> c) {
-        return c.isAnnotationPresent(Table.class) &&  // 拥有注解
-            ClassUtils.isInstantiableClass(c) &&  // 是一个可以不需要其他参数直接生成实例化的对象
-            BaseModel.class.isAssignableFrom(c);
+        return c.isAnnotationPresent(Table.class) ;
+    }
+
+    /// 检查数据源是否可用
+    ///
+    /// @return b
+    public boolean checkDataSource() {
+        try (var conn = sqlClient().dataSource().getConnection()) {
+            var dm = conn.getMetaData();
+            logger.log(DEBUG, "数据源连接成功 : 类型 [{0}]  版本 [{1}]", dm.getDatabaseProductName(), dm.getDatabaseProductVersion());
+            return true;
+        } catch (Exception e) {
+            dataSourceExceptionHandler(e);
+            return false;
+        }
+    }
+
+    /// 数据源连接异常
+    ///
+    /// @param e a [java.lang.Exception] object.
+    static void dataSourceExceptionHandler(Exception e) {
+        while (true) {
+            var errMessage = """
+                **************************************************************
+                *                                                            *
+                *           X 数据源连接失败 !!! 是否忽略错误并继续运行 ?            *
+                *                                                            *
+                *        [Y] 忽略错误并继续运行    |     [N] 退出程序              *
+                *                                                            *
+                **************************************************************
+                """;
+            System.err.println(errMessage);
+            var result = System.console().readLine().trim();
+            if ("Y".equalsIgnoreCase(result)) {
+                var ignoreMessage = """
+                    *******************************************
+                    *                                         *
+                    *       N 数据源链接错误,用户已忽略 !!!         *
+                    *                                         *
+                    *******************************************
+                    """;
+                System.err.println(ignoreMessage);
+                break;
+            } else if ("N".equalsIgnoreCase(result)) {
+                e.printStackTrace();
+                System.exit(-1);
+                break;
+            }
+        }
     }
 
 }

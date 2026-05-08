@@ -1,8 +1,6 @@
 package dev.scx.app;
 
 import dev.scx.app._old.ScxAppOld;
-import dev.scx.app._old.enumeration.ScxAppFeature;
-import dev.scx.app._old.eventbus.EventBus;
 import dev.scx.app.config.ScxConfig;
 import dev.scx.app.config.ScxEnvironment;
 import dev.scx.app._old.config.ScxFeatureConfig;
@@ -71,10 +69,6 @@ public final class ScxAppContext {
 
     public static ScxHttpServer httpServer() {
         return scx().httpServer();
-    }
-
-    public static EventBus eventBus() {
-        return scx().eventBus();
     }
 
     public static ScxEnvironment environment() {

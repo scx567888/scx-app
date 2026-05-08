@@ -4,7 +4,7 @@ import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
 
-public class ScxAppComponentModule implements ScxAppModule {
+public final class ScxAppComponentModule implements ScxAppModule {
 
     @Override
     public ScxAppModuleDefinition init(ScxAppInitContext context) {

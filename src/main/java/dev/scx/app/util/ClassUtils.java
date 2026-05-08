@@ -25,31 +25,6 @@ public final class ClassUtils {
     /// 默认 classLoader
     private static final ClassLoader DEFAULT_CLASS_LOADER = ClassUtils.class.getClassLoader();
 
-    /// 判断是否为 Enum , {@link Class#isEnum()} 无法处理内部类的情况
-    public static boolean isEnum(Class<?> c) {
-        return Enum.class.isAssignableFrom(c);
-    }
-
-    /// 获取 Enum 类的真实类 包括内部类的情况
-    public static Class<?> getEnumClass(Class<?> c) {
-        if (isEnum(c)) {
-            return c.isAnonymousClass() ? c.getSuperclass() : c;
-        } else {
-            throw new IllegalArgumentException(c.getName() + ": Not an enum !!!");
-        }
-    }
-
-    /// 是否是可以实例化的类
-    /// 如果类的构造函数是私有的 我们便假设此类不想让我们进行实例化
-    public static boolean isInstantiableClass(Class<?> c) {
-        //既不是 接口也不是 抽象类
-        return isNormalClass(c);
-    }
-
-    /// 是一个普通类 既不是 接口也不是 抽象类
-    public static boolean isNormalClass(Class<?> c) {
-        return !c.isInterface() && !Modifier.isAbstract(c.getModifiers());
-    }
 
     /// 根据 class 获取源地址
     ///
@@ -59,22 +34,7 @@ public final class ClassUtils {
         return URI.create(source.getProtectionDomain().getCodeSource().getLocation().toString());
     }
 
-    /// 根据 codeSource 获取 app 根路径(文件夹)
-    ///
-    /// @param codeSource 参考 getCodeSource(Class)
-    /// @return app 根路径(文件夹)
-    public static Path getAppRoot(URI codeSource) {
-        var path = Path.of(codeSource);
-        return Files.isDirectory(path) ? path : path.getParent();
-    }
 
-    /// 根据 class 获取 app 根路径(文件夹)
-    ///
-    /// @param source s
-    /// @return app 根路径(文件夹)
-    public static Path getAppRoot(Class<?> source) {
-        return getAppRoot(getCodeSource(source));
-    }
 
     /// 判断路径是否是一个 jar 文件 (这里只是简单的使用 文件后缀判断,并不准确)
     public static boolean isJar(Path path) {

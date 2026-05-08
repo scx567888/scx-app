@@ -1,5 +1,8 @@
 package dev.scx.app;
 
+import dev.scx.ansi.Ansi;
+import dev.scx.app.config.ScxConfig;
+import dev.scx.app.util.ScxHttpClientHelper;
 import dev.scx.di.ComponentContainer;
 import dev.scx.di.DefaultComponentContainer;
 import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;
@@ -96,6 +99,10 @@ public final class ScxApp {
             stopStartedModules(e);
             throw e;
         }
+
+
+        addShutdownHook();
+
     }
 
     public void stop() {
@@ -122,6 +129,21 @@ public final class ScxApp {
 
     public ComponentContainer componentContainer() {
         return componentContainer;
+    }
+
+    public ScxConfig scxConfig() {
+        return null;
+    }
+
+    private void addShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            this.stop();
+            Ansi.ansi().red("项目正在停止!!!").println();
+        }));
+    }
+
+    public <T> T getComponent(Class<T> requiredType) {
+        return componentContainer.getComponent(requiredType);
     }
 
 }
