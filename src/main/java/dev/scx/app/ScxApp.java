@@ -2,6 +2,8 @@ package dev.scx.app;
 
 import dev.scx.di.ComponentContainer;
 import dev.scx.di.DefaultComponentContainer;
+import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;
+import dev.scx.di.dependency_resolver.ValueAnnotationDependencyResolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,6 +41,11 @@ public final class ScxApp {
             var definition = appModule.init(initContext);
             definitions.add(definition);
         }
+
+        // todo 这里应该注入 一些有用的 变量 从 definitions 中获取? 还是直接使用 config ?
+        componentContainer.dependencyResolvers().add(new ValueAnnotationDependencyResolver((k, t)-> null));
+        //这里添加一个 bean 的后置处理器以便可以使用 @Autowired 注解
+        componentContainer.dependencyResolvers().add(new InjectAnnotationDependencyResolver(componentContainer));
 
         // 2. 根据 definition 计算 start 顺序
         this.sortedAppModules = ScxAppModuleStartOrderResolver.resolve(appModules, definitions);
