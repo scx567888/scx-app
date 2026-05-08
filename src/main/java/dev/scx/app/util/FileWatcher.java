@@ -1,4 +1,4 @@
-package dev.scx.app._old.config.helper;
+package dev.scx.app.util;
 
 import java.io.IOException;
 import java.nio.file.*;

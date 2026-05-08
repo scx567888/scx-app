@@ -8,6 +8,7 @@ import dev.scx.app.ScxAppModuleDefinition;
 import dev.scx.app.util.StopWatch;
 import dev.scx.http.ScxHttpServer;
 import dev.scx.http.routing.Router;
+import dev.scx.http.routing.route_table.PriorityRouteTable;
 import dev.scx.http.x.HttpServer;
 import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
@@ -81,10 +82,12 @@ public class ScxAppHttpModule implements ScxAppModule {
     @Override
     public void start(ScxApp scxApp) {
         scxApp.componentContainer().initializeComponents();
-//        Ansi.ansi()
-//            .brightYellow("已加载 " + this.beanFactory.getComponentNames().length + " 个 Component !!!").ln()
-//            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
-//            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
+        PriorityRouteTable priorityRouteTable = this.router.routeTable();
+        Integer routes = priorityRouteTable.entries().size();
+        Ansi.ansi()
+            .brightYellow("已加载 " + scxApp.componentContainer().getComponentNames().length + " 个 Component !!!").ln()
+            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
+            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
         int port = scxApp.scxConfig().get("scx.http.port", int.class,8080);
         this.startServer(port,scxApp);
     }

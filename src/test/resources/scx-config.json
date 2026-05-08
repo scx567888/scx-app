@@ -2,7 +2,7 @@
   "scx":{
     "logging": {
       "default": {
-        "level": "error",
+        "level": "d",
         "type": "console",
         "stored-directory": null,
         "stack-trace": false
@@ -10,7 +10,7 @@
       "loggers": []
     },
     "http": {
-      "port": 8080
+      "port": 8888
     },
     "sql": {
       "url": "jdbc:mysql://127.0.0.1:3306/scx_test",
@@ -22,6 +22,18 @@
         "createDatabaseIfNotExist=true"
       ]
     }
-  }
-
+  },
+  "template": {
+    "root": "AppRoot:c"
+  },
+  "static-servers": [
+    {
+      "location": "/c2/*",
+      "root": "AppRoot:c2"
+    },
+    {
+      "location": "/*",
+      "root": "AppRoot:c1/index.html"
+    }
+  ]
 }

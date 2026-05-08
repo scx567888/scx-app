@@ -8,9 +8,17 @@ import dev.scx.object.x.context.ObjectToNodeContext;
 import dev.scx.object.x.mapper.TypeNodeMapper;
 import dev.scx.reflect.TypeInfo;
 
+import java.nio.file.InvalidPathException;
+
 import static dev.scx.reflect.ScxReflect.typeOf;
 
 public class ConfiguredPathNodeMapper implements TypeNodeMapper<ConfiguredPath, StringNode> {
+
+    private final ScxEnvironment scxEnvironment;
+
+    public ConfiguredPathNodeMapper(ScxEnvironment scxEnvironment) {
+        this.scxEnvironment = scxEnvironment;
+    }
 
     @Override
     public TypeInfo valueType() {
@@ -24,12 +32,18 @@ public class ConfiguredPathNodeMapper implements TypeNodeMapper<ConfiguredPath, 
 
     @Override
     public StringNode valueToNode(ConfiguredPath value, ObjectToNodeContext context) throws ObjectToNodeException {
-        return null;
+        return new StringNode(value.path().toString());
     }
 
     @Override
     public ConfiguredPath nodeToValue(StringNode node, NodeToObjectContext context) throws NodeToObjectException {
-        return null;
+        var value = node.value();
+        var path = this.scxEnvironment.getPathByAppRoot(value);
+        try {
+            return new ConfiguredPath(path);
+        } catch (InvalidPathException e) {
+            throw new NodeToObjectException(e);
+        }
     }
 
 }

@@ -1,10 +1,19 @@
 package dev.scx.app.test;
 
 
-import dev.scx.app.ScxApp;
-import dev.scx.app.ScxAppContext;
-import dev.scx.app.ScxAppModule;
+import dev.scx.app.*;
 import dev.scx.app.base.BaseModelService;
+import dev.scx.app.component.ScxAppComponentModule;
+import dev.scx.app.cors.ScxAppCorsModule;
+import dev.scx.app.crud.CRUDModule;
+import dev.scx.app.fix_table.FixTableModule;
+import dev.scx.app.fss.FSSModule;
+import dev.scx.app.http.ScxAppHttpModule;
+import dev.scx.app.logging.ScxAppLoggingModule;
+import dev.scx.app.redirect.RedirectModule;
+import dev.scx.app.scheduling.ScxAppSchedulingModule;
+import dev.scx.app.sql.ScxAppSQLModule;
+import dev.scx.app.static_server.ScxAppStaticServerModule;
 import dev.scx.app.test.car.Car;
 import dev.scx.app.test.car.CarColor;
 import dev.scx.app.test.car.CarOwner;
@@ -21,6 +30,7 @@ import dev.scx.app.util.StopWatch;
 import dev.scx.app.util.zip.UnZipBuilder;
 import dev.scx.app.util.zip.ZipBuilder;
 import dev.scx.app.util.zip.ZipOptions;
+import dev.scx.app.web.ScxAppWebModule;
 import dev.scx.http.media.multi_part.MultiPart;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
 import dev.scx.http.uri.ScxURI;
@@ -49,6 +59,18 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class TestModule implements ScxAppModule {
 
+    @Override
+    public ScxAppModuleDefinition init(ScxAppInitContext context) {
+        List<Class<?>> classListByScxModule = null;
+        try {
+            classListByScxModule = ScxAppHelper.findClassListByScxModule(this.getClass());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ScxAppModuleDefinition.of()
+            .candidate(classListByScxModule.toArray(Class[]::new));
+    }
+
     public static void main(String[] args) throws IOException {
         runModule();
         test0();
@@ -65,7 +87,21 @@ public class TestModule implements ScxAppModule {
         var args = new String[]{"--scx.port=8888", "--scx.config.path=AppRoot:scx-config.json"};
         ScxApp.builder()
                 .setMainClass(TestModule.class)
-                .module(new TestModule())
+
+            .module(new ScxAppLoggingModule())
+            .module(new ScxAppComponentModule())
+            .module(new ScxAppHttpModule())
+            .module(new ScxAppCorsModule())
+            .module(new ScxAppWebModule())
+            .module(new ScxAppStaticServerModule())
+            .module(new ScxAppSQLModule())
+            .module(new ScxAppSchedulingModule())
+            // 以下是 偏业务的模块
+            .module(new FixTableModule())
+            .module(new FSSModule())
+            .module(new RedirectModule())
+            .module(new CRUDModule())
+            .module(new TestModule())
                 .setArgs(args)
 //                .configure(ScxAppFeature.SHOW_BANNER, true)
 //                .configure(ScxAppFeature.SHOW_OPTIONS_INFO, true)
@@ -77,11 +113,11 @@ public class TestModule implements ScxAppModule {
                 .run();
         //修复表
         try {
-            ScxAppContext.sqlClient().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
+//            ScxAppContext.sqlClient().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
         } catch (Exception ignored) {
 
         }
-//        ScxAppContext.scx().fixTable();
+//        ScxAppContext.scx().getComponent(ScxFix).fixTable();
     }
 
     @Test
@@ -262,11 +298,11 @@ public class TestModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-//        scx.scxHttpRouter().router()
-//            .route(
-//                "/static/*",
-//                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
-//        );
+        scx.getComponent(ScxAppHttpModule.class).router()
+            .route(
+                "/static/*",
+                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
+        );
         var logger = System.getLogger(TestModule.class.getName());
         //测试定时任务
         ScxScheduling.fixedRate()

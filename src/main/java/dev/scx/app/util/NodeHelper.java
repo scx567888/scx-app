@@ -1,4 +1,4 @@
-package dev.scx.app._old.config;
+package dev.scx.app.util;
 
 import dev.scx.node.ArrayNode;
 import dev.scx.node.Node;

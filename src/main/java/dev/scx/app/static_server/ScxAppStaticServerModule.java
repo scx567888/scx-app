@@ -22,7 +22,7 @@ public class ScxAppStaticServerModule implements ScxAppModule {
 
     private static void registerStaticServerHandler(Router router, StaticServer[] staticServers) {
         for (var staticServer : staticServers) {
-            router.route(staticServer.location(), StaticFilesHandler.of(staticServer.root()));
+            router.route(Integer.MAX_VALUE,staticServer.location(), StaticFilesHandler.of(staticServer.root().path()));
         }
     }
 
@@ -36,7 +36,6 @@ public class ScxAppStaticServerModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-        ConvertStaticServerHandler convertStaticServerHandler = new ConvertStaticServerHandler(scx.scxEnvironment());
         var staticServers = scx.scxConfig().get("static-servers", StaticServer[].class,new StaticServer[0]);
         logger.log(DEBUG, "静态资源服务器 -->  {0}", Arrays.stream(staticServers).map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
         registerStaticServerHandler(scx.getComponent(ScxAppHttpModule.class).router(), staticServers);

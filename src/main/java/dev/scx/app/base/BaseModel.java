@@ -4,6 +4,7 @@ import dev.scx.data.sql.annotation.Column;
 
 import java.time.LocalDateTime;
 
+// todo
 /// 最基本的 model 包含最基础的元数据
 ///
 /// @author scx567888

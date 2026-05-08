@@ -1,8 +1,5 @@
 package dev.scx.app;
 
-import dev.scx.app.config.ScxConfig;
-import dev.scx.app.config.ScxEnvironment;
-import dev.scx.app._old.config.ScxFeatureConfig;
 import dev.scx.data.exception.DataAccessException;
 import dev.scx.di.ComponentContainer;
 import dev.scx.function.Function0;
@@ -27,14 +24,14 @@ public final class ScxAppContext {
     /// 全局唯一的 SCX APP
     /// 为了保证方法使用的简易 我们建议使用静态的方法
     /// 但是其本质上是调用 GLOBAL_UNIQUE_SCX_APP 方法中的实例对象
-    final static ScopedValue<ScxApp> GLOBAL_SCX = ScopedValue.newInstance();
+    static ScxApp GLOBAL_SCX ;
 
     /// 获取全局的 Scx
     ///
     /// @return scx
     public static ScxApp scx() {
-        if (GLOBAL_SCX.isBound()) {
-            return GLOBAL_SCX.get();
+        if (GLOBAL_SCX!=null) {
+            return GLOBAL_SCX;
         } else {
             throw new RuntimeException("全局 Scx 未初始化 !!! 请先使用 Scx.builder() 创建 Scx 实例 , 全局 Scx 会自动设置 !!!");
         }
@@ -72,6 +69,6 @@ public final class ScxAppContext {
     }
 
     public static Path getTempPath(String file) {
-        return null;
+        return scx().scxEnvironment().getTempPath(file);
     }
 }
