@@ -15,11 +15,7 @@ import static dev.scx.reflect.ScxReflect.typeOf;
 
 final class ScxConfigImpl implements ScxConfig {
 
-    private static final DefaultObjectNodeConverter CONFIG_OBJECT_NODE_CONVERTER=DefaultObjectNodeConverter.builder()
-        .registerDefaultMappers()
-        .registerMapper(new ConfiguredPathNodeMapper())
-        .registerMapper(new ScxPasswordNodeMapper())
-        .build();
+    private final  DefaultObjectNodeConverter CONFIG_OBJECT_NODE_CONVERTER;
 
     private static final DefaultObjectNodeConvertOptions CONFIG_OBJECT_NODE_CONVERT_OPTIONS=new DefaultObjectNodeConvertOptions();
 
@@ -32,6 +28,11 @@ final class ScxConfigImpl implements ScxConfig {
         this.jsonFile = jsonFile;
         this.scxEnvironment = scxEnvironment;
         this.value = loadFromJsonFile(jsonFile);
+        CONFIG_OBJECT_NODE_CONVERTER = DefaultObjectNodeConverter.builder()
+            .registerDefaultMappers()
+            .registerMapper(new ConfiguredPathNodeMapper(scxEnvironment))
+            .registerMapper(new ScxPasswordNodeMapper())
+            .build();
     }
 
     public static ObjectNode loadFromJsonFile(File jsonFile) {

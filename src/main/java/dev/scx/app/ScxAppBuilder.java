@@ -1,6 +1,5 @@
 package dev.scx.app;
 
-import dev.scx.app._old.config.ScxFeatureConfig;
 import dev.scx.app._old.config.source.ArgsConfigSource;
 import dev.scx.app._old.config.source.MapConfigSource;
 import dev.scx.app.config.ScxConfig;
@@ -37,9 +36,6 @@ public class ScxAppBuilder {
 
     /// 默认配置文件 路径
     private static final String DEFAULT_SCX_CONFIG_PATH = "AppRoot:scx-config.json";
-
-    /// 用来存储临时待添加的 scxFeatureConfig
-    private final ScxFeatureConfig scxFeatureConfig = new ScxFeatureConfig();
 
     /// 配置源
     private final List<ScxConfigSource> scxConfigSources = new ArrayList<>();

@@ -2,7 +2,7 @@ package dev.scx.app.fss;
 
 
 import dev.scx.app.ScxApp;
-import dev.scx.app._old.config.handler.AppRootHandler;
+import dev.scx.app.config.ConfiguredPath;
 
 import java.lang.System.Logger;
 import java.nio.file.Path;
@@ -22,8 +22,13 @@ public class FSSConfig {
     private static Path uploadFilePath;
 
     static void initConfig(ScxApp scx) {
-        AppRootHandler appRootHandler = AppRootHandler.of(scx.scxEnvironment(), "AppRoot:/FSS_FILES/");
-        uploadFilePath = scx.scxConfig().get("fss.physical-file-path", Path.class);
+        var appRootHandler = scx.scxEnvironment().getPathByAppRoot("AppRoot:/FSS_FILES/");
+        var p = scx.scxConfig().get("fss.physical-file-path", ConfiguredPath.class);
+        if (p==null){
+            uploadFilePath=appRootHandler;
+        }else{
+            uploadFilePath=p.path();
+        }
         logger.log(DEBUG, "FSS 物理文件存储位置  -->  {0}", uploadFilePath);
     }
 

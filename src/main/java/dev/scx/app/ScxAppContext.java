@@ -1,8 +1,5 @@
 package dev.scx.app;
 
-import dev.scx.app.config.ScxConfig;
-import dev.scx.app.config.ScxEnvironment;
-import dev.scx.app._old.config.ScxFeatureConfig;
 import dev.scx.data.exception.DataAccessException;
 import dev.scx.di.ComponentContainer;
 import dev.scx.function.Function0;
