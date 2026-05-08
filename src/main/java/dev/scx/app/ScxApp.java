@@ -41,6 +41,7 @@ public final class ScxApp {
     }
 
     public void run() {
+        ScxAppVersion.printBanner();
         var initContext = new ScxAppInitContext(scxConfig,scxEnvironment);
         var definitions = new ArrayList<ScxAppModuleDefinition>();
 
