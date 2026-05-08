@@ -4,6 +4,7 @@ import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.crud.parameter_handler.crud_list_param.CRUDListParamParameterHandlerBuilder;
 import dev.scx.app.crud.parameter_handler.crud_update_param.CRUDUpdateParamParameterHandlerBuilder;
+import dev.scx.app.web.ScxAppWebModule;
 
 import static java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
@@ -26,8 +27,9 @@ public class CRUDModule implements ScxAppModule {
     @Override
     public void start(ScxApp scx) {
         //这里添加额外的参数处理器 保证 CRUDListParam 类型的参数永不为空
-        scx.scxWeb().addParameterHandlerBuilder(0, new CRUDListParamParameterHandlerBuilder());
-        scx.scxWeb().addParameterHandlerBuilder(0, new CRUDUpdateParamParameterHandlerBuilder());
+        ScxAppWebModule component = scx.getComponent(ScxAppWebModule.class);
+        component.scxWeb().addParameterHandlerBuilder(0, new CRUDListParamParameterHandlerBuilder());
+        component.scxWeb().addParameterHandlerBuilder(0, new CRUDUpdateParamParameterHandlerBuilder());
         logger.log(DEBUG, "已添加用于处理类型为 CRUDListParam   的 ParameterHandlerBuilder  -->  {0}", CRUDListParamParameterHandlerBuilder.class.getName());
         logger.log(DEBUG, "已添加用于处理类型为 CRUDUpdateParam 的 ParameterHandlerBuilder  -->  {0}", CRUDUpdateParamParameterHandlerBuilder.class.getName());
     }

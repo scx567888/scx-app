@@ -6,6 +6,7 @@ import dev.scx.reflect.ClassInfo;
 import dev.scx.reflect.ScxReflect;
 import dev.scx.scheduling.ScxScheduling;
 
+import javax.print.attribute.standard.OrientationRequested;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -13,6 +14,8 @@ import static dev.scx.reflect.AccessModifier.PUBLIC;
 import static java.lang.System.Logger.Level.ERROR;
 
 public class ScxAppSchedulingModule implements ScxAppModule {
+
+    private final static System.Logger logger=System.getLogger(ScxAppSchedulingModule.class.getName());
 
     public static void startAnnotationScheduled(ComponentContainer beanFactory) {
         var beanDefinitionNames = beanFactory.getComponentNames();
@@ -31,7 +34,7 @@ public class ScxAppSchedulingModule implements ScxAppModule {
                 }).toList();
                 for (Scheduled scheduled : scheduledList) {
                     if (method.parameters().length != 0) {
-                        ScxApp.logger.log(ERROR,
+                        logger.log(ERROR,
                             "被 Scheduled 注解标识的方法不可以有参数 Class [{0}] , Method [{1}]",
                             classInfo.name(),
                             method.name()

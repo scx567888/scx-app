@@ -17,6 +17,7 @@ public class TTT {
 
     static void main(String[] args) {
         ScxApp.builder()
+            .setMainClass(TTT.class)
             .module(new ScxAppLoggingModule())
             .module(new ScxAppComponentModule())
             .module(new ScxAppHttpModule())

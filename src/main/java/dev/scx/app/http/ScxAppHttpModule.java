@@ -80,10 +80,11 @@ public class ScxAppHttpModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scxApp) {
-        Ansi.ansi()
-            .brightYellow("已加载 " + this.beanFactory.getComponentNames().length + " 个 Component !!!").ln()
-            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
-            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
+        scxApp.componentContainer().initializeComponents();
+//        Ansi.ansi()
+//            .brightYellow("已加载 " + this.beanFactory.getComponentNames().length + " 个 Component !!!").ln()
+//            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
+//            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
         int port = scxApp.scxConfig().getOrDefault("port", int.class,8080);
         this.startServer(port,scxApp);
     }

@@ -2,7 +2,7 @@ package dev.scx.app._old.config.handler;
 
 import dev.scx.ansi.Ansi;
 import dev.scx.app._old.config.ScxConfigValueHandler;
-import dev.scx.app._old.config.ScxEnvironment;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.node.Node;
 import dev.scx.serialize.ScxSerialize;
 

@@ -1,8 +1,8 @@
 package dev.scx.app._old.config.handler;
 
 import dev.scx.ansi.Ansi;
-import dev.scx.app._old.config.CryptoUtils;
 import dev.scx.app._old.config.ScxConfigValueHandler;
+import dev.scx.app.util.CryptoUtils;
 import dev.scx.node.Node;
 import dev.scx.serialize.ScxSerialize;
 

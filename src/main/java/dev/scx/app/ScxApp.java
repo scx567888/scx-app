@@ -2,7 +2,7 @@ package dev.scx.app;
 
 import dev.scx.ansi.Ansi;
 import dev.scx.app.config.ScxConfig;
-import dev.scx.app.util.ScxHttpClientHelper;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.di.ComponentContainer;
 import dev.scx.di.DefaultComponentContainer;
 import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;
@@ -23,7 +23,7 @@ public final class ScxApp {
 
     private final List<ScxAppModule> startedAppModules = new ArrayList<>();
 
-    public ScxApp(ScxAppModule[] appModules) {
+    public ScxApp(ScxEnvironment scxEnvironment, ScxConfig scxConfig, ScxAppModule[] appModules) {
         this.appModules = List.of(appModules);
         this.componentContainer = new DefaultComponentContainer();
         this.sortedAppModules = List.of();
@@ -146,4 +146,7 @@ public final class ScxApp {
         return componentContainer.getComponent(requiredType);
     }
 
+    public ScxEnvironment scxEnvironment() {
+        return null;
+    }
 }

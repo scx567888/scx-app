@@ -3,6 +3,7 @@ package dev.scx.app.redirect;
 import dev.scx.ansi.Ansi;
 import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppModule;
+import dev.scx.app.http.ScxAppHttpModule;
 import dev.scx.http.uri.ScxURI;
 import dev.scx.http.x.HttpServer;
 
@@ -58,7 +59,9 @@ public class RedirectModule implements ScxAppModule {
     @Override
     public void start(ScxApp scx) {
         //只有当开启 https 的时候才进行转发
-        if (scx.scxOptions().isHttpsEnabled()) {
+        ScxAppHttpModule component = scx.getComponent(ScxAppHttpModule.class);
+     var isHttpsEnabled=   scx.scxConfig().get("xxxx",boolean.class);
+        if (isHttpsEnabled) {
             startRedirect(this.port);
         }
     }

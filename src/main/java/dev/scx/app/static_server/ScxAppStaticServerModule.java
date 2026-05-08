@@ -4,10 +4,12 @@ import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
+import dev.scx.app.http.ScxAppHttpModule;
 import dev.scx.http.routing.Router;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
 import dev.scx.web.annotation.Routes;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,7 @@ public class ScxAppStaticServerModule implements ScxAppModule {
 
     private static final System.Logger logger = System.getLogger(ScxAppStaticServerModule.class.getName());
 
-    private static void registerStaticServerHandler(Router router, List<StaticServer> staticServers) {
+    private static void registerStaticServerHandler(Router router, StaticServer[] staticServers) {
         for (var staticServer : staticServers) {
             router.route(staticServer.location(), StaticFilesHandler.of(staticServer.root()));
         }
@@ -34,9 +36,10 @@ public class ScxAppStaticServerModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-        var staticServers = scx.scxConfig().get("static-servers", new ConvertStaticServerHandler(scx.scxEnvironment()));
-        logger.log(DEBUG, "静态资源服务器 -->  {0}", staticServers.stream().map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
-        registerStaticServerHandler(scx.scxHttpRouter().router(), staticServers);
+        ConvertStaticServerHandler convertStaticServerHandler = new ConvertStaticServerHandler(scx.scxEnvironment());
+        var staticServers = scx.scxConfig().get("static-servers", StaticServer[].class);
+        logger.log(DEBUG, "静态资源服务器 -->  {0}", Arrays.stream(staticServers).map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
+        registerStaticServerHandler(scx.getComponent(ScxAppHttpModule.class).router(), staticServers);
     }
 
 }

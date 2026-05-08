@@ -1,7 +1,8 @@
 package dev.scx.app._old.config.source;
 
 import dev.scx.app._old.config.NodeHelper;
-import dev.scx.app._old.config.ScxConfigSource;
+import dev.scx.config.AbstractConfigSource;
+import dev.scx.config.ScxConfigSource;
 import dev.scx.node.ObjectNode;
 
 /// MultiConfigSource
@@ -14,14 +15,14 @@ public class MultiConfigSource extends AbstractConfigSource {
 
     public MultiConfigSource(ScxConfigSource... sources) {
         this.sources = sources;
-        this.configMapping = loadFromSources(sources);
+        this.value = loadFromSources(sources);
         bindOnChange(sources);
     }
 
     public static ObjectNode loadFromSources(ScxConfigSource... sources) {
         var configMapping = new ObjectNode();
         for (var scxConfigSource : sources) {
-            NodeHelper.merge(configMapping, scxConfigSource.configMapping());
+//            NodeHelper.merge(configMapping, scxConfigSource.configMapping());
         }
         return configMapping;
     }
@@ -33,9 +34,9 @@ public class MultiConfigSource extends AbstractConfigSource {
     }
 
     private void callOnChange0(ObjectNode oldValue, ObjectNode newValue) {
-        var oldConfigMapping = this.configMapping;
-        this.configMapping = loadFromSources(sources);
-        callOnChange(oldConfigMapping, this.configMapping);
+//        var oldConfigMapping = this.configMapping;
+//        this.configMapping = loadFromSources(sources);
+//        callOnChange(oldConfigMapping, this.configMapping);
     }
 
 }
