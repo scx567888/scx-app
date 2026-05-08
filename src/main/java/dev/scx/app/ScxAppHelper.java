@@ -4,8 +4,6 @@ import dev.scx.app.component.Component;
 import dev.scx.app.base.BaseModel;
 import dev.scx.app.base.BaseModelService;
 import dev.scx.app.util.ClassUtils;
-import dev.scx.app._old.config.handler.ConvertValueHandler;
-import dev.scx.app._old.config.handler.DefaultValueHandler;
 import dev.scx.di.ComponentContainer;
 import dev.scx.di.DefaultComponentContainer;
 import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;

@@ -22,6 +22,15 @@
         "createDatabaseIfNotExist=true"
       ]
     }
-  }
-
+  },
+  "static-servers": [
+    {
+      "location": "/c2/*",
+      "root": "AppRoot:c2"
+    },
+    {
+      "location": "/*",
+      "root": "AppRoot:c1/index.html"
+    }
+  ]
 }
