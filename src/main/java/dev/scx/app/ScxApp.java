@@ -8,9 +8,7 @@ import dev.scx.di.DefaultComponentContainer;
 import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;
 import dev.scx.di.dependency_resolver.ValueAnnotationDependencyResolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 public final class ScxApp {
@@ -25,6 +23,8 @@ public final class ScxApp {
 
     private final ScxEnvironment scxEnvironment;
     private final ScxConfig scxConfig;
+
+    private final Set<Class<?>> candidateClasses = new LinkedHashSet<>();
 
     public ScxApp(ScxEnvironment scxEnvironment, ScxConfig scxConfig, ScxAppModule[] appModules) {
         this.scxEnvironment=scxEnvironment;
@@ -68,6 +68,8 @@ public final class ScxApp {
             allComponentSelectors.addAll(definition.componentSelectors());
             allComponentInstances.addAll(definition.componentInstances());
         }
+
+        candidateClasses.addAll(allCandidates);
 
         // 4. 根据所有 selector 从所有 candidates 中筛选组件类
         var allComponentClass = new ArrayList<Class<?>>();
@@ -154,4 +156,14 @@ public final class ScxApp {
     public ScxEnvironment scxEnvironment() {
         return scxEnvironment;
     }
+
+    public Object getComponent(String componentName) {
+        return componentContainer.getComponent(componentName);
+    }
+
+
+    public Set<Class<?>> candidateClasses() {
+        return candidateClasses;
+    }
+
 }

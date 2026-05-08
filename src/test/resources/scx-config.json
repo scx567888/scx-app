@@ -2,7 +2,7 @@
   "scx":{
     "logging": {
       "default": {
-        "level": "error",
+        "level": "d",
         "type": "console",
         "stored-directory": null,
         "stack-trace": false

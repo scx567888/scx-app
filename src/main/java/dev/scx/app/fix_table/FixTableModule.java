@@ -2,13 +2,12 @@ package dev.scx.app.fix_table;
 
 import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppModule;
-import dev.scx.app.base.BaseModel;
 import dev.scx.app.sql.TableSupport;
-import dev.scx.app.util.ClassUtils;
 import dev.scx.data.sql.annotation.Table;
 import dev.scx.data.sql.schema_mapping.AnnotationConfigTable;
 import dev.scx.sql.SQLClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,9 +55,9 @@ public class FixTableModule implements ScxAppModule {
             return;
         }
 
-        if (checkNeedFixTable(sqlClient)) {
+        if (checkNeedFixTable(scx,sqlClient)) {
             if (confirmFixTable()) {
-                fixTable(sqlClient);
+                fixTable(scx,sqlClient);
             } else {
                 logger.log(DEBUG, "用户已取消修复表 !!!");
             }
@@ -70,9 +69,10 @@ public class FixTableModule implements ScxAppModule {
     /// 检查是否有任何 (BaseModel) 类需要修复表
     ///
     /// @return 是否有
-    public boolean checkNeedFixTable(SQLClient sqlClient) {
+    public boolean checkNeedFixTable(ScxApp scx, SQLClient sqlClient) {
         logger.log(DEBUG, "检查数据表结构中...");
-        for (var v : getAllScxBaseModelClassList()) {
+        List<Class<?>> allScxBaseModelClassList = getAllScxBaseModelClassList(scx);
+        for (var v : allScxBaseModelClassList) {
             //根据 class 获取 tableInfo
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
@@ -87,7 +87,7 @@ public class FixTableModule implements ScxAppModule {
         return false;
     }
 
-    public void fixTable(SQLClient sqlClient) {
+    public void fixTable(ScxApp scx, SQLClient sqlClient) {
         logger.log(DEBUG, "修复数据表结构中...");
         //修复成功的表
         var fixSuccess = 0;
@@ -95,7 +95,8 @@ public class FixTableModule implements ScxAppModule {
         var fixFail = 0;
         //不需要修复的表
         var noNeedToFix = 0;
-        for (var v : getAllScxBaseModelClassList()) {
+        List<Class<?>> allScxBaseModelClassList = getAllScxBaseModelClassList(scx);
+        for (var v : allScxBaseModelClassList) {
             //根据 class 获取 tableInfo
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
@@ -128,13 +129,10 @@ public class FixTableModule implements ScxAppModule {
     /// 获取所有 class
     ///
     /// @return s
-    private List<Class<?>> getAllScxBaseModelClassList() {
-//        return Arrays.stream(scxModules)
-//            .flatMap(c -> c.classList().stream())
-//            .filter(FixTableModule::isScxBaseModelClass)// 继承自 BaseModel
-//            .toList();
-        // todo
-        return List.of();
+    private List<Class<?>> getAllScxBaseModelClassList(ScxApp scx) {
+        return scx.candidateClasses().stream()
+            .filter(FixTableModule::isScxBaseModelClass)// 继承自 BaseModel
+            .toList();
     }
 
     /// 初始化 ScxModelClassList
