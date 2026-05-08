@@ -11,6 +11,8 @@ import dev.scx.di.dependency_resolver.ValueAnnotationDependencyResolver;
 import java.util.*;
 import java.util.function.Predicate;
 
+import static dev.scx.app.ScxAppContext.GLOBAL_SCX;
+
 public final class ScxApp {
 
     private final List<ScxAppModule> appModules;
@@ -109,6 +111,8 @@ public final class ScxApp {
 
 
         addShutdownHook();
+
+        GLOBAL_SCX=this;
 
     }
 

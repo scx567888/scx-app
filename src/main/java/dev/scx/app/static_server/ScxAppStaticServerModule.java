@@ -22,7 +22,7 @@ public class ScxAppStaticServerModule implements ScxAppModule {
 
     private static void registerStaticServerHandler(Router router, StaticServer[] staticServers) {
         for (var staticServer : staticServers) {
-            router.route(staticServer.location(), StaticFilesHandler.of(staticServer.root().path()));
+            router.route(Integer.MAX_VALUE,staticServer.location(), StaticFilesHandler.of(staticServer.root().path()));
         }
     }
 

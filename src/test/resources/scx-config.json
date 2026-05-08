@@ -23,6 +23,9 @@
       ]
     }
   },
+  "template": {
+    "root": "AppRoot:c"
+  },
   "static-servers": [
     {
       "location": "/c2/*",

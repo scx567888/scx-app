@@ -4,6 +4,7 @@ import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
+import dev.scx.app.config.ConfiguredPath;
 import dev.scx.app.http.ScxAppHttpModule;
 import dev.scx.di.provider.ComponentProvider;
 import dev.scx.http.routing.Router;
@@ -23,7 +24,7 @@ public class ScxAppWebModule implements ScxAppModule {
 
     @Override
     public ScxAppModuleDefinition init(ScxAppInitContext context) {
-        Path path = context.config().get("templateRoot", Path.class);
+        var path = context.config().get("template.root", ConfiguredPath.class).path();
         scxWeb=new ScxWeb();
         scxWeb.addReturnValueHandler(new TemplateReturnValueHandler(new TemplateEngine(path)));
 
