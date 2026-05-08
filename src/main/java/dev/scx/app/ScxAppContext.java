@@ -69,6 +69,6 @@ public final class ScxAppContext {
     }
 
     public static Path getTempPath(String file) {
-        return null;
+        return scx().scxEnvironment().getTempPath(file);
     }
 }

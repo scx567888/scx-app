@@ -113,11 +113,11 @@ public class TestModule implements ScxAppModule {
                 .run();
         //修复表
         try {
-            ScxAppContext.sqlClient().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
+//            ScxAppContext.sqlClient().execute(SQL.sql("drop database if exists scx_test; create database scx_test; use scx_test"));
         } catch (Exception ignored) {
 
         }
-//        ScxAppContext.scx().fixTable();
+//        ScxAppContext.scx().getComponent(ScxFix).fixTable();
     }
 
     @Test
@@ -298,11 +298,11 @@ public class TestModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-//        scx.scxHttpRouter().router()
-//            .route(
-//                "/static/*",
-//                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
-//        );
+        scx.getComponent(ScxAppHttpModule.class).router()
+            .route(
+                "/static/*",
+                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
+        );
         var logger = System.getLogger(TestModule.class.getName());
         //测试定时任务
         ScxScheduling.fixedRate()
