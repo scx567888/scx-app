@@ -1,6 +1,6 @@
 package dev.scx.ffi.platform.test;
 
-import dev.scx.app._old.platform.win32.helper.WindowsProxyHelper;
+import dev.scx.app.util.ffi.win32.helper.WindowsProxyHelper;
 import org.testng.annotations.Test;
 
 public class WindowsProxyHelperTest {

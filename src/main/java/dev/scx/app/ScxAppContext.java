@@ -71,4 +71,7 @@ public final class ScxAppContext {
         return scx().getComponent(SQLClient.class);
     }
 
+    public static Path getTempPath(String file) {
+        return null;
+    }
 }

@@ -1,17 +1,10 @@
 package dev.scx.app.test;
 
-import dev.scx.app._old.ScxApp;
-import dev.scx.app._old.ScxAppContext;
-import dev.scx.app._old.ScxAppModule;
-import dev.scx.app._old.base.BaseModelService;
-import dev.scx.app._old.enumeration.ScxAppFeature;
-import dev.scx.app._old.util.FileUtils;
-import dev.scx.app._old.util.NetUtils;
-import dev.scx.app._old.util.ScxHttpClientHelper;
-import dev.scx.app._old.util.StopWatch;
-import dev.scx.app._old.util.zip.UnZipBuilder;
-import dev.scx.app._old.util.zip.ZipBuilder;
-import dev.scx.app._old.util.zip.ZipOptions;
+
+import dev.scx.app.ScxApp;
+import dev.scx.app.ScxAppContext;
+import dev.scx.app.ScxAppModule;
+import dev.scx.app.base.BaseModelService;
 import dev.scx.app.test.car.Car;
 import dev.scx.app.test.car.CarColor;
 import dev.scx.app.test.car.CarOwner;
@@ -21,6 +14,13 @@ import dev.scx.app.test.like.LikeService;
 import dev.scx.app.test.like.Order;
 import dev.scx.app.test.person.Person;
 import dev.scx.app.test.person.PersonService;
+import dev.scx.app.util.FileUtils;
+import dev.scx.app.util.NetUtils;
+import dev.scx.app.util.ScxHttpClientHelper;
+import dev.scx.app.util.StopWatch;
+import dev.scx.app.util.zip.UnZipBuilder;
+import dev.scx.app.util.zip.ZipBuilder;
+import dev.scx.app.util.zip.ZipOptions;
 import dev.scx.http.media.multi_part.MultiPart;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
 import dev.scx.http.uri.ScxURI;
@@ -47,7 +47,7 @@ import static dev.scx.random.ScxRandom.NUMBER_AND_LETTER;
 import static java.lang.System.Logger.Level.ERROR;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class TestModule extends ScxAppModule {
+public class TestModule implements ScxAppModule {
 
     public static void main(String[] args) throws IOException {
         runModule();
@@ -65,15 +65,15 @@ public class TestModule extends ScxAppModule {
         var args = new String[]{"--scx.port=8888", "--scx.config.path=AppRoot:scx-config.json"};
         ScxApp.builder()
                 .setMainClass(TestModule.class)
-                .addModule(new TestModule())
+                .module(new TestModule())
                 .setArgs(args)
-                .configure(ScxAppFeature.SHOW_BANNER, true)
-                .configure(ScxAppFeature.SHOW_OPTIONS_INFO, true)
-                .configure(ScxAppFeature.SHOW_MODULE_LIFE_CYCLE_INFO, true)
-                .configure(ScxAppFeature.SHOW_START_UP_INFO, true)
-                .configure(ScxAppFeature.USE_DEVELOPMENT_ERROR_PAGE, true)
-                .configure(ScxAppFeature.ENABLE_SCHEDULING_WITH_ANNOTATION, true)
-                .configure(ScxAppFeature.USE_SPY, true)
+//                .configure(ScxAppFeature.SHOW_BANNER, true)
+//                .configure(ScxAppFeature.SHOW_OPTIONS_INFO, true)
+//                .configure(ScxAppFeature.SHOW_MODULE_LIFE_CYCLE_INFO, true)
+//                .configure(ScxAppFeature.SHOW_START_UP_INFO, true)
+//                .configure(ScxAppFeature.USE_DEVELOPMENT_ERROR_PAGE, true)
+//                .configure(ScxAppFeature.ENABLE_SCHEDULING_WITH_ANNOTATION, true)
+//                .configure(ScxAppFeature.USE_SPY, true)
                 .run();
         //修复表
         try {
@@ -81,7 +81,7 @@ public class TestModule extends ScxAppModule {
         } catch (Exception ignored) {
 
         }
-        ScxAppContext.scx().fixTable();
+//        ScxAppContext.scx().fixTable();
     }
 
     @Test
@@ -187,11 +187,11 @@ public class TestModule extends ScxAppModule {
 
     @Test
     public static void test2() {
-        var car = new Car();
-        ScxAppContext.eventBus().consumer("test-event-bus", (c) -> {
-            assertEquals(c, car);
-        });
-        ScxAppContext.eventBus().publish("test-event-bus", car);
+//        var car = new Car();
+//        ScxAppContext.eventBus().consumer("test-event-bus", (c) -> {
+//            assertEquals(c, car);
+//        });
+//        ScxAppContext.eventBus().publish("test-event-bus", car);
     }
 
     @Test
@@ -262,11 +262,11 @@ public class TestModule extends ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-        scx.scxHttpRouter().router()
-            .route(
-                "/static/*",
-                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
-        );
+//        scx.scxHttpRouter().router()
+//            .route(
+//                "/static/*",
+//                StaticFilesHandler.of(scx.scxEnvironment().getPathByAppRoot("AppRoot:c\\static"))
+//        );
         var logger = System.getLogger(TestModule.class.getName());
         //测试定时任务
         ScxScheduling.fixedRate()

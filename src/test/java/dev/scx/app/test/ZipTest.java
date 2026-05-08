@@ -1,6 +1,6 @@
 package dev.scx.app.test;
 
-import dev.scx.app._old.util.zip.ZipBuilder;
+import dev.scx.app.util.zip.ZipBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

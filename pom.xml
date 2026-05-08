@@ -157,8 +157,7 @@
             <groupId>dev.scx</groupId>
             <artifactId>scx-sql-mysql</artifactId>
             <version>${scx-sql-mysql.version}</version>
-<!--  todo 临时测试          -->
-<!--            <scope>test</scope>-->
+            <scope>test</scope>
         </dependency>
 
         <!-- TestNG 测试包 -->
