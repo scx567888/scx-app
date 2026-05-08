@@ -5,12 +5,14 @@ import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
+import dev.scx.app.util.StopWatch;
 import dev.scx.http.ScxHttpServer;
 import dev.scx.http.routing.Router;
 import dev.scx.http.x.HttpServer;
 import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
 import dev.scx.http.x.http1.headers.upgrade.Upgrade;
+import dev.scx.node.Node;
 import dev.scx.tcp.tls.TLS;
 import dev.scx.websocket.x.WebSocketUpgradeRequestFactory;
 
@@ -19,7 +21,6 @@ import java.net.BindException;
 import java.net.Inet4Address;
 import java.nio.file.Path;
 
-import static dev.scx.app._old.enumeration.ScxAppFeature.USE_DEVELOPMENT_ERROR_PAGE;
 import static dev.scx.app.util.NetUtils.getLocalIPAddress;
 
 public class ScxAppHttpModule implements ScxAppModule {
@@ -46,7 +47,7 @@ public class ScxAppHttpModule implements ScxAppModule {
 
         httpServerOptions.maxPayloadSize(DEFAULT_BODY_LIMIT);
 
-        var httpsEnabled = context.config().get("xxxxx", boolean.class);
+        var httpsEnabled = context.config().get("xxxxx", Boolean.class,false);
         var sslPath = context.config().get("xxxxx", Path.class);
         var sslPassword = context.config().get("xxxxx", String.class);
 
@@ -67,22 +68,32 @@ public class ScxAppHttpModule implements ScxAppModule {
 
         this.router=Router.of();
 
+
+        var useDevelopmentErrorPage = context.config().get("USE_DEVELOPMENT_ERROR_PAGE",boolean.class,false);
+
         httpServer = new HttpServer(httpServerOptions)
             .onRequest(router)
-            .onError(new DefaultHttpServerErrorHandler(context.config().get(USE_DEVELOPMENT_ERROR_PAGE)));
+            .onError(new DefaultHttpServerErrorHandler(useDevelopmentErrorPage));
 
         return ScxAppModuleDefinition.of();
     }
 
     @Override
     public void start(ScxApp scxApp) {
-        this.startServer(scxApp.scxConfig().get("port",int.class),scxApp);
+        scxApp.componentContainer().initializeComponents();
+//        Ansi.ansi()
+//            .brightYellow("已加载 " + this.beanFactory.getComponentNames().length + " 个 Component !!!").ln()
+//            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
+//            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
+        int port = scxApp.scxConfig().get("scx.http.port", int.class,8080);
+        this.startServer(port,scxApp);
     }
 
     private void startServer(int port, ScxApp scxApp) {
+        StopWatch.start("ScxRun");
         try {
             this.httpServer.start(port);
-            var httpsEnabled = scxApp.scxConfig().get("xxxxx", boolean.class);
+            var httpsEnabled = scxApp.scxConfig().get("xxxxx", boolean.class,false);
             var httpOrHttps = httpsEnabled ? "https" : "http";
             var o = Ansi.ansi().green("服务器启动成功... 用时 " + StopWatch.stopToMillis("ScxRun") + " ms").ln();
             var p = this.httpServer.localAddress().getPort();

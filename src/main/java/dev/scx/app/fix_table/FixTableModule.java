@@ -7,6 +7,7 @@ import dev.scx.app.sql.TableSupport;
 import dev.scx.app.util.ClassUtils;
 import dev.scx.data.sql.annotation.Table;
 import dev.scx.data.sql.schema_mapping.AnnotationConfigTable;
+import dev.scx.sql.SQLClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,13 +50,15 @@ public class FixTableModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scx) {
-        if (!scx.checkDataSource()) {
+        SQLClient sqlClient = scx.getComponent(SQLClient.class);
+        if (!checkDataSource(sqlClient)) {
             logger.log(ERROR, "数据源连接失败!!! 已跳过修复表!!!");
             return;
         }
-        if (checkNeedFixTable()) {
+
+        if (checkNeedFixTable(sqlClient)) {
             if (confirmFixTable()) {
-                fixTable();
+                fixTable(sqlClient);
             } else {
                 logger.log(DEBUG, "用户已取消修复表 !!!");
             }
@@ -67,14 +70,14 @@ public class FixTableModule implements ScxAppModule {
     /// 检查是否有任何 (BaseModel) 类需要修复表
     ///
     /// @return 是否有
-    public boolean checkNeedFixTable() {
+    public boolean checkNeedFixTable(SQLClient sqlClient) {
         logger.log(DEBUG, "检查数据表结构中...");
         for (var v : getAllScxBaseModelClassList()) {
             //根据 class 获取 tableInfo
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
                 //有任何需要修复的直接 返回 true
-                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
+                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient)) {
                     return true;
                 }
             } catch (Exception e) {
@@ -84,7 +87,7 @@ public class FixTableModule implements ScxAppModule {
         return false;
     }
 
-    public void fixTable() {
+    public void fixTable(SQLClient sqlClient) {
         logger.log(DEBUG, "修复数据表结构中...");
         //修复成功的表
         var fixSuccess = 0;
@@ -96,8 +99,8 @@ public class FixTableModule implements ScxAppModule {
             //根据 class 获取 tableInfo
             var tableInfo = new AnnotationConfigTable<>(v);
             try {
-                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient())) {
-                    TableSupport.fixTable(tableInfo, sqlClient());
+                if (TableSupport.checkNeedFixTable(tableInfo, sqlClient)) {
+                    TableSupport.fixTable(tableInfo, sqlClient);
                     fixSuccess = fixSuccess + 1;
                 } else {
                     noNeedToFix = noNeedToFix + 1;
@@ -126,10 +129,12 @@ public class FixTableModule implements ScxAppModule {
     ///
     /// @return s
     private List<Class<?>> getAllScxBaseModelClassList() {
-        return Arrays.stream(scxModules)
-            .flatMap(c -> c.classList().stream())
-            .filter(FixTableModule::isScxBaseModelClass)// 继承自 BaseModel
-            .toList();
+//        return Arrays.stream(scxModules)
+//            .flatMap(c -> c.classList().stream())
+//            .filter(FixTableModule::isScxBaseModelClass)// 继承自 BaseModel
+//            .toList();
+        // todo
+        return List.of();
     }
 
     /// 初始化 ScxModelClassList
@@ -137,9 +142,55 @@ public class FixTableModule implements ScxAppModule {
     /// @param c a
     /// @return a
     public static boolean isScxBaseModelClass(Class<?> c) {
-        return c.isAnnotationPresent(Table.class) &&  // 拥有注解
-            ClassUtils.isInstantiableClass(c) &&  // 是一个可以不需要其他参数直接生成实例化的对象
-            BaseModel.class.isAssignableFrom(c);
+        return c.isAnnotationPresent(Table.class) ;
+    }
+
+    /// 检查数据源是否可用
+    ///
+    /// @return b
+    public boolean checkDataSource(SQLClient sqlClient) {
+        try (var conn = sqlClient.dataSource().getConnection()) {
+            var dm = conn.getMetaData();
+            logger.log(DEBUG, "数据源连接成功 : 类型 [{0}]  版本 [{1}]", dm.getDatabaseProductName(), dm.getDatabaseProductVersion());
+            return true;
+        } catch (Exception e) {
+            dataSourceExceptionHandler(e);
+            return false;
+        }
+    }
+
+    /// 数据源连接异常
+    ///
+    /// @param e a [java.lang.Exception] object.
+    static void dataSourceExceptionHandler(Exception e) {
+        while (true) {
+            var errMessage = """
+                **************************************************************
+                *                                                            *
+                *           X 数据源连接失败 !!! 是否忽略错误并继续运行 ?            *
+                *                                                            *
+                *        [Y] 忽略错误并继续运行    |     [N] 退出程序              *
+                *                                                            *
+                **************************************************************
+                """;
+            System.err.println(errMessage);
+            var result = System.console().readLine().trim();
+            if ("Y".equalsIgnoreCase(result)) {
+                var ignoreMessage = """
+                    *******************************************
+                    *                                         *
+                    *       N 数据源链接错误,用户已忽略 !!!         *
+                    *                                         *
+                    *******************************************
+                    """;
+                System.err.println(ignoreMessage);
+                break;
+            } else if ("N".equalsIgnoreCase(result)) {
+                e.printStackTrace();
+                System.exit(-1);
+                break;
+            }
+        }
     }
 
 }

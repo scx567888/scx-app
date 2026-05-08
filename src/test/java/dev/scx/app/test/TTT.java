@@ -1,5 +1,6 @@
-package dev.scx.app;
+package dev.scx.app.test;
 
+import dev.scx.app.ScxApp;
 import dev.scx.app.component.ScxAppComponentModule;
 import dev.scx.app.cors.ScxAppCorsModule;
 import dev.scx.app.crud.CRUDModule;
@@ -17,6 +18,7 @@ public class TTT {
 
     static void main(String[] args) {
         ScxApp.builder()
+            .setMainClass(TTT.class)
             .module(new ScxAppLoggingModule())
             .module(new ScxAppComponentModule())
             .module(new ScxAppHttpModule())

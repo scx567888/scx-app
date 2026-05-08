@@ -9,6 +9,8 @@ import dev.scx.http.routing.Router;
 import dev.scx.web.ScxWeb;
 import dev.scx.web.annotation.Routes;
 
+import java.nio.file.Path;
+
 
 public class ScxAppWebModule implements ScxAppModule {
 
@@ -16,8 +18,9 @@ public class ScxAppWebModule implements ScxAppModule {
 
     @Override
     public ScxAppModuleDefinition init(ScxAppInitContext context) {
+        Path path = context.config().get("templateRoot", Path.class);
         scxWeb=new ScxWeb();
-        scxWeb.addReturnValueHandler(new TemplateReturnValueHandler(new TemplateEngine(scxOptions.templateRoot())));
+        scxWeb.addReturnValueHandler(new TemplateReturnValueHandler(new TemplateEngine(path)));
 
         return ScxAppModuleDefinition.of()
             .componentSelector(c ->
@@ -28,7 +31,7 @@ public class ScxAppWebModule implements ScxAppModule {
     @Override
     public void start(ScxApp scxApp) {
         // todo 这里 需要 获取 di 容器中 所有类 然后 注入到 router 中
-        ScxAppHttpModule httpModule = scxApp.getBean(ScxAppHttpModule.class);
+        ScxAppHttpModule httpModule = scxApp.getComponent(ScxAppHttpModule.class);
         Router router = httpModule.router();
 
     }

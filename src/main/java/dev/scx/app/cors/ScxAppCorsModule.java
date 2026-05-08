@@ -42,11 +42,12 @@ public class ScxAppCorsModule implements ScxAppModule {
 
     @Override
     public void start(ScxApp scxApp) {
-        ScxAppHttpModule httpModule = scxApp.getBean(ScxAppHttpModule.class);
+        ScxAppHttpModule httpModule = scxApp.getComponent(ScxAppHttpModule.class);
         Router router = httpModule.router();
 
+        var allowedOrigin=scxApp.scxConfig().get("allowedOrigin", String.class);
         //设置基本的 handler
-        this.corsHandler = initCorsHandler(scxApp.scxOptions().allowedOrigin());
+        this.corsHandler = initCorsHandler(allowedOrigin);
         //注册路由
         this.corsHandlerRoute = Route.of(PathMatcher.any(), MethodMatcher.any(),corsHandler);
         router.route(-10000,this.corsHandlerRoute);
@@ -54,6 +55,9 @@ public class ScxAppCorsModule implements ScxAppModule {
     }
 
     private static CorsHandler initCorsHandler(String allowedOriginPattern) {
+        if (allowedOriginPattern==null){
+            allowedOriginPattern="*";
+        }
         return CorsHandler.of()
             .allowOrigin(allowedOriginPattern.equals("*")? AllowOrigin.ofWildcard():AllowOrigin.of(allowedOriginPattern))
             .allowHeaders(AllowHeaders.of(DEFAULT_ALLOWED_HEADERS))

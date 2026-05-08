@@ -4,6 +4,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static dev.scx.app.util.ClassUtils.getCodeSource;
+
 /// 项目环境
 ///
 /// @author scx567888
@@ -33,14 +35,6 @@ public final class ScxEnvironment {
         return getAppRoot(mainClass);
     }
 
-    /// 根据 class 获取源地址
-    ///
-    /// @param source a [java.lang.Class] object.
-    /// @return 可能是 目录 也可能是 jar 文件
-    public static URI getCodeSource(Class<?> source) {
-        return URI.create(source.getProtectionDomain().getCodeSource().getLocation().toString());
-    }
-
     /// 根据 codeSource 获取 app 根路径(文件夹)
     ///
     /// @param codeSource 参考 getCodeSource(Class)
@@ -49,6 +43,7 @@ public final class ScxEnvironment {
         var path = Path.of(codeSource);
         return Files.isDirectory(path) ? path : path.getParent();
     }
+
 
     /// 根据 class 获取 app 根路径(文件夹)
     ///

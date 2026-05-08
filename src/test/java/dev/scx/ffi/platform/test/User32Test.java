@@ -1,8 +1,8 @@
 package dev.scx.ffi.platform.test;
 
-import dev.scx.app._old.platform.win32.WinUser;
+import dev.scx.app.util.ffi.win32.WinUser;
 
-import static dev.scx.app._old.platform.win32.User32.USER32;
+import static dev.scx.app.util.ffi.win32.User32.USER32;
 
 public class User32Test {
 

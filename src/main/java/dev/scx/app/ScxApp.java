@@ -1,7 +1,12 @@
 package dev.scx.app;
 
+import dev.scx.ansi.Ansi;
+import dev.scx.app.config.ScxConfig;
+import dev.scx.app.config.ScxEnvironment;
 import dev.scx.di.ComponentContainer;
 import dev.scx.di.DefaultComponentContainer;
+import dev.scx.di.dependency_resolver.InjectAnnotationDependencyResolver;
+import dev.scx.di.dependency_resolver.ValueAnnotationDependencyResolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,7 +23,12 @@ public final class ScxApp {
 
     private final List<ScxAppModule> startedAppModules = new ArrayList<>();
 
-    public ScxApp(ScxAppModule[] appModules) {
+    private final ScxEnvironment scxEnvironment;
+    private final ScxConfig scxConfig;
+
+    public ScxApp(ScxEnvironment scxEnvironment, ScxConfig scxConfig, ScxAppModule[] appModules) {
+        this.scxEnvironment=scxEnvironment;
+        this.scxConfig=scxConfig;
         this.appModules = List.of(appModules);
         this.componentContainer = new DefaultComponentContainer();
         this.sortedAppModules = List.of();
@@ -29,7 +39,7 @@ public final class ScxApp {
     }
 
     public void run() {
-        var initContext = new ScxAppInitContext();
+        var initContext = new ScxAppInitContext(scxConfig,scxEnvironment);
         var definitions = new ArrayList<ScxAppModuleDefinition>();
 
         // 1. 调用所有模块 init, 收集 definition
@@ -39,6 +49,11 @@ public final class ScxApp {
             var definition = appModule.init(initContext);
             definitions.add(definition);
         }
+
+        // todo 这里应该注入 一些有用的 变量 从 definitions 中获取? 还是直接使用 config ?
+        componentContainer.dependencyResolvers().add(new ValueAnnotationDependencyResolver((k, t)-> null));
+        //这里添加一个 bean 的后置处理器以便可以使用 @Autowired 注解
+        componentContainer.dependencyResolvers().add(new InjectAnnotationDependencyResolver(componentContainer));
 
         // 2. 根据 definition 计算 start 顺序
         this.sortedAppModules = ScxAppModuleStartOrderResolver.resolve(appModules, definitions);
@@ -89,6 +104,10 @@ public final class ScxApp {
             stopStartedModules(e);
             throw e;
         }
+
+
+        addShutdownHook();
+
     }
 
     public void stop() {
@@ -117,4 +136,22 @@ public final class ScxApp {
         return componentContainer;
     }
 
+    public ScxConfig scxConfig() {
+        return scxConfig;
+    }
+
+    private void addShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            this.stop();
+            Ansi.ansi().red("项目正在停止!!!").println();
+        }));
+    }
+
+    public <T> T getComponent(Class<T> requiredType) {
+        return componentContainer.getComponent(requiredType);
+    }
+
+    public ScxEnvironment scxEnvironment() {
+        return scxEnvironment;
+    }
 }

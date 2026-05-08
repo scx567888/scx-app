@@ -1,6 +1,7 @@
 package dev.scx.app._old.config.source;
 
 import dev.scx.app._old.config.NodeHelper;
+import dev.scx.config.AbstractConfigSource;
 import dev.scx.node.ObjectNode;
 
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 public final class MapConfigSource extends AbstractConfigSource {
 
     private MapConfigSource(Map<String, Object> map) {
-        this.configMapping = loadFromMap(map);
+        this.value = loadFromMap(map);
     }
 
     public static ObjectNode loadFromMap(Map<String, Object> map) {

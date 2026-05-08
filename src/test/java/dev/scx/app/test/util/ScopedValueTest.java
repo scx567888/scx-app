@@ -1,6 +1,6 @@
 package dev.scx.app.test.util;
 
-import dev.scx.app._old.util.$;
+import dev.scx.app.util.$;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

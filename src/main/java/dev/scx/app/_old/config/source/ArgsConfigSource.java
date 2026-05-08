@@ -1,6 +1,7 @@
 package dev.scx.app._old.config.source;
 
 import dev.scx.app._old.config.NodeHelper;
+import dev.scx.config.AbstractConfigSource;
 import dev.scx.node.ObjectNode;
 
 /// ArgsConfigSource
@@ -10,7 +11,7 @@ import dev.scx.node.ObjectNode;
 public final class ArgsConfigSource extends AbstractConfigSource {
 
     private ArgsConfigSource(String... args) {
-        this.configMapping = loadFromArgs(args);
+        this.value = loadFromArgs(args);
     }
 
     public static ObjectNode loadFromArgs(String... args) {

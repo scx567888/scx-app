@@ -5,20 +5,19 @@ import dev.scx.node.Node;
 import dev.scx.node.ObjectNode;
 import dev.scx.object.x.DefaultObjectNodeConvertOptions;
 import dev.scx.object.x.DefaultObjectNodeConverter;
-import dev.scx.object.x.adapter.NodeTypeAdapter;
 import dev.scx.reflect.TypeReference;
 import dev.scx.serialize.ScxSerialize;
 
 import java.io.File;
-import java.nio.file.Path;
 
+import static dev.scx.node.NullNode.NULL;
 import static dev.scx.reflect.ScxReflect.typeOf;
 
 final class ScxConfigImpl implements ScxConfig {
 
     private static final DefaultObjectNodeConverter CONFIG_OBJECT_NODE_CONVERTER=DefaultObjectNodeConverter.builder()
         .registerDefaultMappers()
-        .registerMapper(new ScxPathNodeMapper())
+        .registerMapper(new ConfiguredPathNodeMapper())
         .registerMapper(new ScxPasswordNodeMapper())
         .build();
 
@@ -74,6 +73,9 @@ final class ScxConfigImpl implements ScxConfig {
     @Override
     public <T> T get(String path, Class<T> type) {
         Node node = get(path);
+        if (node==null){
+            node=NULL;
+        }
         return CONFIG_OBJECT_NODE_CONVERTER.nodeToObject(node, type, CONFIG_OBJECT_NODE_CONVERT_OPTIONS);
     }
 
@@ -84,7 +86,7 @@ final class ScxConfigImpl implements ScxConfig {
     }
 
     @Override
-    public <T> T getOrDefault(String path, Class<T> type, T defaultValue) {
+    public <T> T get(String path, Class<T> type, T defaultValue) {
         Node node = get(path);
         if (node == null) {
             return defaultValue;
@@ -93,7 +95,7 @@ final class ScxConfigImpl implements ScxConfig {
     }
 
     @Override
-    public <T> T getOrDefault(String path, TypeReference<T> type, T defaultValue) {
+    public <T> T get(String path, TypeReference<T> type, T defaultValue) {
         Node node = get(path);
         if (node == null) {
             return defaultValue;

@@ -9,13 +9,14 @@ import dev.scx.data.aggregation.Aggregation;
 import dev.scx.data.field_policy.FieldPolicy;
 import dev.scx.data.query.Query;
 import dev.scx.data.sql.SQLRepository;
+import dev.scx.reflect.ClassInfo;
+import dev.scx.reflect.ScxReflect;
 import dev.scx.sql.SQL;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static dev.scx.app.ScxAppHelper.findBaseModelServiceEntityClass;
 import static dev.scx.data.field_policy.FieldPolicyBuilder.includeAll;
 import static dev.scx.data.query.QueryBuilder.*;
 
@@ -24,7 +25,7 @@ import static dev.scx.data.query.QueryBuilder.*;
 ///
 /// 或手动创建 : new BaseModelService()
 ///
-/// 如果还是无法满足需求, 可以考虑使用 [SQLRunner]
+/// 如果还是无法满足需求, 可以考虑使用 [dev.scx.sql.SQLClient]
 ///
 /// @author scx567888
 /// @version 0.0.1
@@ -38,6 +39,22 @@ public class BaseModelService<Entity extends BaseModel> {
     /// 从泛型中获取 entityClass
     public BaseModelService() {
         this.entityClass = findBaseModelServiceEntityClass(this.getClass());
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <Entity extends BaseModel> Class<Entity> findBaseModelServiceEntityClass(Class<?> baseModelServiceClass) {
+        // todo 这里强转可能有问题
+        var superClass = ((ClassInfo) ScxReflect.typeOf(baseModelServiceClass)).findSuperType(BaseModelService.class);
+        if (superClass != null) {
+            var boundType = superClass.bindings().get(0);
+            if (boundType != null) {
+                return (Class<Entity>) boundType.rawClass();
+            } else {
+                throw new IllegalArgumentException(baseModelServiceClass.getName() + " : 必须设置泛型参数 !!!");
+            }
+        } else {
+            throw new IllegalArgumentException(baseModelServiceClass.getName() + " : 必须继承自 BaseModelService !!!");
+        }
     }
 
     /// 手动创建 entityClass

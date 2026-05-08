@@ -1,0 +1,41 @@
+{
+  "scx": {
+    "port": 8080,
+    "allowed-origin": "*",
+    "data-source": {
+      "url": "jdbc:mysql://127.0.0.1:3306/scx_test",
+      "username": "root",
+      "password": "DECRYPT:gTNaUKkX4T0BRW0K8fnfh1t+ZKq/BIQ5XfHosseI7lW1P6S+Z/EmMi6hQWOxeVkK",
+      "parameters": [
+        "allowMultiQueries=true",
+        "rewriteBatchedStatements=true",
+        "createDatabaseIfNotExist=true"
+      ]
+    },
+    "https": {
+      "enabled": false,
+      "ssl-path": "AppRoot:ssl\\scx_dev.jks",
+      "ssl-password": "123456"
+    },
+    "template": {
+      "root": "AppRoot:c"
+    },
+    "logging": {
+      "default": {
+        "level": "ERROR",
+        "type": "BOTH",
+        "stored-directory": "AppRoot:logs",
+        "stack-trace": false
+      },
+      "loggers": [
+        {
+          "name": "ScxJdbcSpy",
+          "level": "DEBUG",
+          "type": "BOTH",
+          "stored-directory": "AppRoot:sql-logs",
+          "stack-trace": true
+        }
+      ]
+    }
+  }
+}

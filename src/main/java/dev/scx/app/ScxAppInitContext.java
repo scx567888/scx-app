@@ -6,12 +6,20 @@ import dev.scx.app.config.ScxEnvironment;
 // todo ?
 public class ScxAppInitContext {
 
+    private final ScxConfig scxConfig;
+    private final ScxEnvironment scxEnvironment;
+
+    public ScxAppInitContext(ScxConfig scxConfig, ScxEnvironment scxEnvironment) {
+        this.scxConfig=scxConfig;
+        this.scxEnvironment=scxEnvironment;
+    }
+
     public ScxConfig config(){
-        return null;
+        return scxConfig;
     }
 
     public ScxEnvironment environment(){
-        return null;
+        return scxEnvironment;
     }
 
 }
