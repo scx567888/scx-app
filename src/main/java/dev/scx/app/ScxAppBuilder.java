@@ -7,6 +7,7 @@ import dev.scx.app.config.ScxConfig;
 import dev.scx.app.config.ScxEnvironment;
 import dev.scx.config.ScxConfigSource;
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class ScxAppBuilder {
@@ -120,7 +121,8 @@ public class ScxAppBuilder {
         scxConfigSources.add(defaultArgsConfigSource);
         //创建 scx 实例
 //        var scxConfig = new ScxConfig(scxConfigSources.toArray(ScxConfigSource[]::new));
-        var scxConfig = ScxConfig.of(null,null);
+        Path pathByAppRoot = scxEnvironment.getPathByAppRoot("AppRoot:scx-config.json");
+        var scxConfig = ScxConfig.of(pathByAppRoot.toFile(),scxEnvironment);
         return new ScxApp(scxEnvironment, scxConfig, scxModules.toArray(ScxAppModule[]::new));
     }
 

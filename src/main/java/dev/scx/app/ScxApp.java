@@ -23,7 +23,12 @@ public final class ScxApp {
 
     private final List<ScxAppModule> startedAppModules = new ArrayList<>();
 
+    private final ScxEnvironment scxEnvironment;
+    private final ScxConfig scxConfig;
+
     public ScxApp(ScxEnvironment scxEnvironment, ScxConfig scxConfig, ScxAppModule[] appModules) {
+        this.scxEnvironment=scxEnvironment;
+        this.scxConfig=scxConfig;
         this.appModules = List.of(appModules);
         this.componentContainer = new DefaultComponentContainer();
         this.sortedAppModules = List.of();
@@ -132,7 +137,7 @@ public final class ScxApp {
     }
 
     public ScxConfig scxConfig() {
-        return null;
+        return scxConfig;
     }
 
     private void addShutdownHook() {
@@ -147,6 +152,6 @@ public final class ScxApp {
     }
 
     public ScxEnvironment scxEnvironment() {
-        return null;
+        return scxEnvironment;
     }
 }
