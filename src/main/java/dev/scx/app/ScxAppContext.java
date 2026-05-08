@@ -1,6 +1,5 @@
 package dev.scx.app;
 
-import dev.scx.app._old.ScxAppOld;
 import dev.scx.app.config.ScxConfig;
 import dev.scx.app.config.ScxEnvironment;
 import dev.scx.app._old.config.ScxFeatureConfig;
