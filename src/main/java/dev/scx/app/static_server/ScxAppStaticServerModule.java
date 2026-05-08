@@ -37,7 +37,7 @@ public class ScxAppStaticServerModule implements ScxAppModule {
     @Override
     public void start(ScxApp scx) {
         ConvertStaticServerHandler convertStaticServerHandler = new ConvertStaticServerHandler(scx.scxEnvironment());
-        var staticServers = scx.scxConfig().get("static-servers", StaticServer[].class);
+        var staticServers = scx.scxConfig().get("static-servers", StaticServer[].class,new StaticServer[0]);
         logger.log(DEBUG, "静态资源服务器 -->  {0}", Arrays.stream(staticServers).map(StaticServer::location).collect(Collectors.joining(", ", "[", "]")));
         registerStaticServerHandler(scx.getComponent(ScxAppHttpModule.class).router(), staticServers);
     }

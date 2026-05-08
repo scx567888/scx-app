@@ -60,7 +60,7 @@ public class RedirectModule implements ScxAppModule {
     public void start(ScxApp scx) {
         //只有当开启 https 的时候才进行转发
         ScxAppHttpModule component = scx.getComponent(ScxAppHttpModule.class);
-     var isHttpsEnabled=   scx.scxConfig().get("xxxx",boolean.class);
+     var isHttpsEnabled=   scx.scxConfig().get("xxxx",boolean.class,false);
         if (isHttpsEnabled) {
             startRedirect(this.port);
         }

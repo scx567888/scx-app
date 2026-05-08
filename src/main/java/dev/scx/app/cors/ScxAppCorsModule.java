@@ -55,6 +55,9 @@ public class ScxAppCorsModule implements ScxAppModule {
     }
 
     private static CorsHandler initCorsHandler(String allowedOriginPattern) {
+        if (allowedOriginPattern==null){
+            allowedOriginPattern="*";
+        }
         return CorsHandler.of()
             .allowOrigin(allowedOriginPattern.equals("*")? AllowOrigin.ofWildcard():AllowOrigin.of(allowedOriginPattern))
             .allowHeaders(AllowHeaders.of(DEFAULT_ALLOWED_HEADERS))

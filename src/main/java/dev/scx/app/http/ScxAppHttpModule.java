@@ -93,7 +93,7 @@ public class ScxAppHttpModule implements ScxAppModule {
         StopWatch.start("ScxRun");
         try {
             this.httpServer.start(port);
-            var httpsEnabled = scxApp.scxConfig().get("xxxxx", boolean.class);
+            var httpsEnabled = scxApp.scxConfig().get("xxxxx", boolean.class,false);
             var httpOrHttps = httpsEnabled ? "https" : "http";
             var o = Ansi.ansi().green("服务器启动成功... 用时 " + StopWatch.stopToMillis("ScxRun") + " ms").ln();
             var p = this.httpServer.localAddress().getPort();
