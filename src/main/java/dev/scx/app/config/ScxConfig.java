@@ -21,8 +21,8 @@ public interface ScxConfig {
 
     <T> T get(String path, TypeReference<T> type);
 
-    <T> T getOrDefault(String path, Class<T> type, T defaultValue);
+    <T> T get(String path, Class<T> type, T defaultValue);
 
-    <T> T getOrDefault(String path, TypeReference<T> type, T defaultValue);
+    <T> T get(String path, TypeReference<T> type, T defaultValue);
 
 }

@@ -47,7 +47,7 @@ public class ScxAppHttpModule implements ScxAppModule {
 
         httpServerOptions.maxPayloadSize(DEFAULT_BODY_LIMIT);
 
-        var httpsEnabled = context.config().get("xxxxx", boolean.class);
+        var httpsEnabled = context.config().get("xxxxx", Boolean.class,false);
         var sslPath = context.config().get("xxxxx", Path.class);
         var sslPassword = context.config().get("xxxxx", String.class);
 
@@ -69,7 +69,7 @@ public class ScxAppHttpModule implements ScxAppModule {
         this.router=Router.of();
 
 
-        var useDevelopmentErrorPage = context.config().getOrDefault("USE_DEVELOPMENT_ERROR_PAGE",boolean.class,false);
+        var useDevelopmentErrorPage = context.config().get("USE_DEVELOPMENT_ERROR_PAGE",boolean.class,false);
 
         httpServer = new HttpServer(httpServerOptions)
             .onRequest(router)
@@ -85,7 +85,7 @@ public class ScxAppHttpModule implements ScxAppModule {
 //            .brightYellow("已加载 " + this.beanFactory.getComponentNames().length + " 个 Component !!!").ln()
 //            .brightGreen("已加载 " + ((routes != null ? routes : 0)) + " 个 Http 路由 !!!").ln()
 //            .brightBlue("已加载 " + (routes != null ? routes : 0) + " 个 WebSocket 路由 !!!").println();
-        int port = scxApp.scxConfig().getOrDefault("port", int.class,8080);
+        int port = scxApp.scxConfig().get("scx.http.port", int.class,8080);
         this.startServer(port,scxApp);
     }
 

@@ -41,7 +41,7 @@ public final class ScxAppLoggingModule implements ScxAppModule {
         var defaultLevel = toLevel(scxConfig.get("scx.logging.default.level", String.class));
         var defaultType = toType(scxConfig.get("scx.logging.default.type", String.class));
         var defaultStoredDirectory = scxConfig.get("scx.logging.default.stored-directory", ConfiguredPath.class);
-        var defaultStackTrace = scxConfig.getOrDefault("scx.logging.default.stack-trace", boolean.class,false);
+        var defaultStackTrace = scxConfig.get("scx.logging.default.stack-trace", boolean.class,false);
 
         //设置默认的 config 这里我们先清除所有的 Recorders
         var defaultConfig = ScxLogging.rootConfig().clearRecorders();

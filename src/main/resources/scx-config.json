@@ -1,1 +1,27 @@
-{}
+{
+  "scx":{
+    "logging": {
+      "default": {
+        "level": "error",
+        "type": "console",
+        "stored-directory": null,
+        "stack-trace": false
+      },
+      "loggers": []
+    },
+    "http": {
+      "port": 8080
+    },
+    "sql": {
+      "url": "jdbc:mysql://127.0.0.1:3306/scx_test",
+      "username": "root",
+      "password": "DECRYPT:gTNaUKkX4T0BRW0K8fnfh1t+ZKq/BIQ5XfHosseI7lW1P6S+Z/EmMi6hQWOxeVkK",
+      "parameters": [
+        "allowMultiQueries=true",
+        "rewriteBatchedStatements=true",
+        "createDatabaseIfNotExist=true"
+      ]
+    }
+  }
+
+}

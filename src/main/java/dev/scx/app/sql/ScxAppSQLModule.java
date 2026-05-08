@@ -24,10 +24,10 @@ public class ScxAppSQLModule implements ScxAppModule {
     }
 
     static SQLClient initSQLClient(ScxConfig scxOptions) {
-        var dataSourceUrl=scxOptions.get("xxx", String.class);
-        var dataSourceUsername=scxOptions.get("xxx", String.class);
-        var dataSourcePassword=scxOptions.get("xxx", String.class);
-        var dataSourceParameters=scxOptions.get("xxx", String.class);
+        var dataSourceUrl=scxOptions.get("scx.sql.url", String.class);
+        var dataSourceUsername=scxOptions.get("scx.sql.username", String.class);
+        var dataSourcePassword=scxOptions.get("scx.sql.password", String.class);
+        var dataSourceParameters=scxOptions.get("scx.sql.parameters", String[].class);
 
         JDBCConnectionInfo jdbcConnectionInfo = new JDBCConnectionInfo(
             dataSourceUrl,
@@ -41,7 +41,7 @@ public class ScxAppSQLModule implements ScxAppModule {
             .registerHandlerFactory(new ObjectSQLHandlerFactory())
             .build();
 
-        var useSpy= scxOptions.get("xxx", boolean.class);
+        var useSpy= scxOptions.get("xxx", boolean.class,false);
 
         return SQLClient.of(
             jdbcConnectionInfo,
