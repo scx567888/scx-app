@@ -1,7 +1,6 @@
-package dev.scx.app._old.config.source;
+package dev.scx.app.config;
 
-import dev.scx.app._old.config.NodeHelper;
-import dev.scx.config.AbstractConfigSource;
+import dev.scx.app.util.NodeHelper;
 import dev.scx.node.ObjectNode;
 
 /// ArgsConfigSource
