@@ -5,12 +5,10 @@ import dev.scx.node.Node;
 import dev.scx.node.ObjectNode;
 import dev.scx.object.x.DefaultObjectNodeConvertOptions;
 import dev.scx.object.x.DefaultObjectNodeConverter;
-import dev.scx.object.x.adapter.NodeTypeAdapter;
 import dev.scx.reflect.TypeReference;
 import dev.scx.serialize.ScxSerialize;
 
 import java.io.File;
-import java.nio.file.Path;
 
 import static dev.scx.reflect.ScxReflect.typeOf;
 
@@ -18,7 +16,7 @@ final class ScxConfigImpl implements ScxConfig {
 
     private static final DefaultObjectNodeConverter CONFIG_OBJECT_NODE_CONVERTER=DefaultObjectNodeConverter.builder()
         .registerDefaultMappers()
-        .registerMapper(new ScxPathNodeMapper())
+        .registerMapper(new ConfiguredPathNodeMapper())
         .registerMapper(new ScxPasswordNodeMapper())
         .build();
 

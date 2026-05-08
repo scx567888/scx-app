@@ -4,6 +4,7 @@ import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
 import dev.scx.app.ScxAppHelper;
+import dev.scx.app.config.ConfiguredPath;
 import dev.scx.app.util.ObjectUtils;
 import dev.scx.app.config.ScxConfig;
 import dev.scx.app.config.ScxEnvironment;
@@ -14,6 +15,7 @@ import dev.scx.logging.recorder.FileRecorder;
 import dev.scx.reflect.TypeReference;
 import dev.scx.serialize.ScxSerialize;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,7 +27,7 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.util.Objects.requireNonNull;
 
-public class ScxAppLoggingModule implements ScxAppModule {
+public final class ScxAppLoggingModule implements ScxAppModule {
 
     @Override
     public ScxAppModuleDefinition init(ScxAppInitContext context) {
@@ -33,11 +35,12 @@ public class ScxAppLoggingModule implements ScxAppModule {
         return ScxAppModuleDefinition.of();
     }
 
-    static void initScxLoggerFactory0(ScxConfig scxConfig, ScxEnvironment scxEnvironment) {
+    private static void initScxLoggerFactory0(ScxConfig scxConfig, ScxEnvironment scxEnvironment) {
+        Path pathByAppRoot = scxEnvironment.getPathByAppRoot("AppRoot:logs");
         //先初始化好 DefaultScxLoggerInfo
         var defaultLevel = toLevel(scxConfig.get("scx.logging.default.level", String.class));
         var defaultType = toType(scxConfig.get("scx.logging.default.type", String.class));
-        var defaultStoredDirectory = scxConfig.get("scx.logging.default.stored-directory", AppRootHandler.of(scxEnvironment, "AppRoot:logs"));
+        var defaultStoredDirectory = scxConfig.get("scx.logging.default.stored-directory", ConfiguredPath.class);
         var defaultStackTrace = scxConfig.getOrDefault("scx.logging.default.stack-trace", boolean.class,false);
 
         //设置默认的 config 这里我们先清除所有的 Recorders
@@ -47,7 +50,7 @@ public class ScxAppLoggingModule implements ScxAppModule {
             defaultConfig.addRecorder(new ConsoleRecorder());
         }
         if (defaultType == LoggingType.FILE || defaultType == LoggingType.BOTH) {
-            defaultConfig.addRecorder(new FileRecorder(defaultStoredDirectory));
+            defaultConfig.addRecorder(new FileRecorder(defaultStoredDirectory.path()));
         }
         defaultConfig.setStackTrace(defaultStackTrace);
 
@@ -69,7 +72,7 @@ public class ScxAppLoggingModule implements ScxAppModule {
                     }
                     if (type == LoggingType.FILE || type == LoggingType.BOTH) {
                         //文件路径的缺省值使用 默认的
-                        config.addRecorder(new FileRecorder(storedDirectory != null ? storedDirectory : defaultStoredDirectory));
+                        config.addRecorder(new FileRecorder(storedDirectory != null ? storedDirectory : defaultStoredDirectory.path()));
                     }
                     config.setStackTrace(stackTrace);
                     ScxLogging.setConfig(name, config);
@@ -77,8 +80,6 @@ public class ScxAppLoggingModule implements ScxAppModule {
             }
         }
     }
-
-
 
     private static System.Logger.Level toLevel(String levelName) {
         Objects.requireNonNull(levelName, "levelName 不能为空 !!!");

@@ -10,11 +10,11 @@ import dev.scx.reflect.TypeInfo;
 
 import static dev.scx.reflect.ScxReflect.typeOf;
 
-public class ScxPathNodeMapper implements TypeNodeMapper<ScxPath, StringNode> {
+public class ConfiguredPathNodeMapper implements TypeNodeMapper<ConfiguredPath, StringNode> {
 
     @Override
     public TypeInfo valueType() {
-        return typeOf(ScxPath.class);
+        return typeOf(ConfiguredPath.class);
     }
 
     @Override
@@ -23,12 +23,12 @@ public class ScxPathNodeMapper implements TypeNodeMapper<ScxPath, StringNode> {
     }
 
     @Override
-    public StringNode valueToNode(ScxPath value, ObjectToNodeContext context) throws ObjectToNodeException {
+    public StringNode valueToNode(ConfiguredPath value, ObjectToNodeContext context) throws ObjectToNodeException {
         return null;
     }
 
     @Override
-    public ScxPath nodeToValue(StringNode node, NodeToObjectContext context) throws NodeToObjectException {
+    public ConfiguredPath nodeToValue(StringNode node, NodeToObjectContext context) throws NodeToObjectException {
         return null;
     }
 
