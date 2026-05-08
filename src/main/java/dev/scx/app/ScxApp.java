@@ -39,7 +39,7 @@ public final class ScxApp {
     }
 
     public void run() {
-        var initContext = new ScxAppInitContext();
+        var initContext = new ScxAppInitContext(scxConfig,scxEnvironment);
         var definitions = new ArrayList<ScxAppModuleDefinition>();
 
         // 1. 调用所有模块 init, 收集 definition

@@ -38,9 +38,6 @@ public class ScxAppBuilder {
     /// 默认配置文件 路径
     private static final String DEFAULT_SCX_CONFIG_PATH = "AppRoot:scx-config.json";
 
-    /// 用来存储临时待添加的 scxModules
-    private final List<ScxAppModule> scxModules = new ArrayList<>();
-
     /// 用来存储临时待添加的 scxFeatureConfig
     private final ScxFeatureConfig scxFeatureConfig = new ScxFeatureConfig();
 
@@ -123,7 +120,7 @@ public class ScxAppBuilder {
 //        var scxConfig = new ScxConfig(scxConfigSources.toArray(ScxConfigSource[]::new));
         Path pathByAppRoot = scxEnvironment.getPathByAppRoot("AppRoot:scx-config.json");
         var scxConfig = ScxConfig.of(pathByAppRoot.toFile(),scxEnvironment);
-        return new ScxApp(scxEnvironment, scxConfig, scxModules.toArray(ScxAppModule[]::new));
+        return new ScxApp(scxEnvironment, scxConfig, appModules.toArray(ScxAppModule[]::new));
     }
 
     /// 添加多个模块
