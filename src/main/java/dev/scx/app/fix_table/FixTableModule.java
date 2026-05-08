@@ -56,11 +56,12 @@ public class FixTableModule implements ScxAppModule {
         }
 
         if (checkNeedFixTable(scx,sqlClient)) {
-            if (confirmFixTable()) {
+            // todo 跳过选择
+//            if (confirmFixTable()) {
                 fixTable(scx,sqlClient);
-            } else {
-                logger.log(DEBUG, "用户已取消修复表 !!!");
-            }
+//            } else {
+//                logger.log(DEBUG, "用户已取消修复表 !!!");
+//            }
         } else {
             logger.log(DEBUG, "没有表需要修复...");
         }
