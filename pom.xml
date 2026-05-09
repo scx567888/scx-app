@@ -180,7 +180,7 @@
         <scx-ansi.version>0.2.0</scx-ansi.version>
         <scx-jdbc-spy.version>0.3.0</scx-jdbc-spy.version>
         <scx-logging.version>0.0.1</scx-logging.version>
-        <scx-string.version>0.0.1</scx-string.version>
+        <scx-string.version>0.1.0</scx-string.version>
         <scx-lock.version>0.1.0</scx-lock.version>
         <thumbnailator.version>0.4.21</thumbnailator.version>
         <freemarker.version>2.3.34</freemarker.version>
