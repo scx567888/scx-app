@@ -5,7 +5,7 @@ import dev.scx.app.ScxApp;
 import dev.scx.app.ScxAppInitContext;
 import dev.scx.app.ScxAppModule;
 import dev.scx.app.ScxAppModuleDefinition;
-import dev.scx.app.util.StopWatch;
+import dev.scx.app._util.StopWatch;
 import dev.scx.http.ScxHttpServer;
 import dev.scx.http.routing.Router;
 import dev.scx.http.routing.route_table.PriorityRouteTable;
@@ -13,7 +13,6 @@ import dev.scx.http.x.HttpServer;
 import dev.scx.http.x.HttpServerOptions;
 import dev.scx.http.x.error_handler.DefaultHttpServerErrorHandler;
 import dev.scx.http.x.http1.headers.upgrade.Upgrade;
-import dev.scx.node.Node;
 import dev.scx.tcp.tls.TLS;
 import dev.scx.websocket.x.WebSocketUpgradeRequestFactory;
 
@@ -22,7 +21,7 @@ import java.net.BindException;
 import java.net.Inet4Address;
 import java.nio.file.Path;
 
-import static dev.scx.app.util.NetUtils.getLocalIPAddress;
+import static dev.scx.app._util.NetUtils.getLocalIPAddress;
 
 public class ScxAppHttpModule implements ScxAppModule {
 

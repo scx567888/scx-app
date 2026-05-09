@@ -4,7 +4,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static dev.scx.app.util.ClassUtils.getCodeSource;
+import static dev.scx.app._util.ClassUtils.getCodeSource;
 
 /// 项目环境
 ///

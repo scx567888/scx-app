@@ -1,9 +1,8 @@
 package dev.scx.app.test.website;
 
 import dev.scx.app.ScxAppContext;
-import dev.scx.app.util.HttpHelper;
-import dev.scx.app.util.ScxHttpClientHelper;
-import dev.scx.app.util.zip.ZipBuilder;
+import dev.scx.app._util.HttpHelper;
+import dev.scx.app._util.zip.ZipBuilder;
 import dev.scx.app.web.Template;
 import dev.scx.app.test.car.CarService;
 import dev.scx.app.test.person.Person;
@@ -14,6 +13,7 @@ import dev.scx.http.media.multi_part.MultiPartPart;
 import dev.scx.http.media_type.FileFormat;
 import dev.scx.http.method.HttpMethod;
 import dev.scx.http.routing.RoutingContext;
+import dev.scx.http.x.HttpClient;
 import dev.scx.random.ScxRandom;
 import dev.scx.web.ScxWeb;
 import dev.scx.web.annotation.Part;
@@ -135,7 +135,8 @@ public class WebSiteController {
     /// @return a
     @Route(value = "/baidu", methods = HttpMethod.GET)
     public Html TestHttpUtils() throws IOException, InterruptedException {
-        var baiduHtml = ScxHttpClientHelper.get("https://www.baidu.com/").asString();
+        var httpClient=new HttpClient();
+        var baiduHtml = httpClient.request().uri("https://www.baidu.com/").send().asString();
         return Html.of(baiduHtml);
     }
 

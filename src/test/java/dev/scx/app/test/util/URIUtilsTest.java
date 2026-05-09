@@ -1,6 +1,6 @@
 package dev.scx.app.test.util;
 
-import dev.scx.app.util.URIUtils;
+import dev.scx.app._util.zip.URIUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
