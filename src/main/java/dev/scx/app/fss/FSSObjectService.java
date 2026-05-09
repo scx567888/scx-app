@@ -2,7 +2,7 @@ package dev.scx.app.fss;
 
 import dev.scx.app.component.Component;
 import dev.scx.app.base.BaseModelService;
-import dev.scx.app.util.FileUtils;
+import dev.scx.app._util.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;

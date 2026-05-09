@@ -1,6 +1,6 @@
 package dev.scx.app.fss;
 
-import dev.scx.app.util.FileUtils;
+import dev.scx.app._util.FileUtils;
 import dev.scx.http.exception.NotFoundException;
 import dev.scx.random.ScxRandom;
 import net.coobird.thumbnailator.geometry.Positions;

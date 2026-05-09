@@ -23,20 +23,19 @@ import dev.scx.app.test.like.LikeService;
 import dev.scx.app.test.like.Order;
 import dev.scx.app.test.person.Person;
 import dev.scx.app.test.person.PersonService;
-import dev.scx.app.util.FileUtils;
-import dev.scx.app.util.NetUtils;
-import dev.scx.app.util.ScxHttpClientHelper;
-import dev.scx.app.util.StopWatch;
-import dev.scx.app.util.zip.UnZipBuilder;
-import dev.scx.app.util.zip.ZipBuilder;
-import dev.scx.app.util.zip.ZipOptions;
+import dev.scx.app._util.FileUtils;
+import dev.scx.app._util.NetUtils;
+import dev.scx.app._util.StopWatch;
+import dev.scx.app._util.zip.UnZipBuilder;
+import dev.scx.app._util.zip.ZipBuilder;
+import dev.scx.app._util.zip.ZipOptions;
 import dev.scx.app.web.ScxAppWebModule;
 import dev.scx.http.media.multi_part.MultiPart;
 import dev.scx.http.routing.x.static_files.StaticFilesHandler;
 import dev.scx.http.uri.ScxURI;
+import dev.scx.http.x.HttpClient;
 import dev.scx.random.ScxRandom;
 import dev.scx.scheduling.ScxScheduling;
-import dev.scx.sql.SQL;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -53,6 +52,7 @@ import java.util.List;
 import static dev.scx.data.field_policy.FieldPolicyBuilder.*;
 import static dev.scx.data.query.BuildControl.USE_EXPRESSION;
 import static dev.scx.data.query.QueryBuilder.*;
+import static dev.scx.http.method.HttpMethod.POST;
 import static dev.scx.random.ScxRandom.NUMBER_AND_LETTER;
 import static java.lang.System.Logger.Level.ERROR;
 import static org.testng.AssertJUnit.assertEquals;
@@ -206,17 +206,22 @@ public class TestModule implements ScxAppModule {
         FileUtils.write(ScxAppContext.getTempPath("test.txt"), "内容2内容2内容2内容2😂😂😂!!!".getBytes(StandardCharsets.UTF_8));
         var ip = Arrays.stream(NetUtils.getLocalIPAddress()).filter(i -> i instanceof Inet4Address).toList().getFirst();
         var logger = System.getLogger(TestModule.class.getName());
+        var httpClient=new HttpClient();
         //测试 URIBuilder
         for (int i = 0; i < 10; i = i + 1) {
             var s = "http://" + ip.getHostAddress() + ":8888/test0";
-            var stringHttpResponse = ScxHttpClientHelper.post(
-                ScxURI.of(s)
-                    .addQuery("name", "小明😊123?!@%^&**()_特-殊 字=符")
-                    .addQuery("age", 18),
-                MultiPart.of()
-                    .add("content", "内容内容内容内容内容".getBytes(StandardCharsets.UTF_8))
-                    .add("content1", ScxAppContext.getTempPath("test.txt").toFile())
-            );
+            var stringHttpResponse = httpClient.request()
+                    .method(POST)
+                    .uri(
+                        ScxURI.of(s)
+                            .addQuery("name", "小明😊123?!@%^&**()_特-殊 字=符")
+                            .addQuery("age", 18)
+                    )
+                    .send(
+                        MultiPart.of()
+                            .add("content", "内容内容内容内容内容".getBytes(StandardCharsets.UTF_8))
+                            .add("content1", ScxAppContext.getTempPath("test.txt").toFile())
+                    );
             logger.log(ERROR, "测试请求[{0}] : {1}", i, stringHttpResponse.asString());
         }
     }

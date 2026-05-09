@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import static dev.scx.app.util.ClassUtils.*;
+import static dev.scx.app._util.ClassUtils.*;
 
 /// ScxHelper
 ///
